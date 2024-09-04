@@ -9,6 +9,7 @@ $uri = parse_url($uri, PHP_URL_PATH);
 
 $routes = [
     '/'        => 'home',
+    '/product' => 'product',
     '/contact' => 'contact',
 ];
 

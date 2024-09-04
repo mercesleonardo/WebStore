@@ -63,3 +63,10 @@ if (!function_exists('route_is')) {
         return $uri === $route;
     }
 }
+
+if (!function_exists('format_money')) {
+    function format_money(int $value): string
+    {
+        return 'R$' . number_format($value / 100, 2, ',', '.');
+    }
+}
