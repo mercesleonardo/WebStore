@@ -70,3 +70,10 @@ if (!function_exists('format_money')) {
         return 'R$' . number_format($value / 100, 2, ',', '.');
     }
 }
+
+if (!function_exists('env')) {
+    function env(string $key, mixed $default = null): mixed
+    {
+        return $_ENV[$key]?? $default;
+    }
+}

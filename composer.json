@@ -20,6 +20,7 @@
     "minimum-stability": "stable",
     "require": {
         "monolog/monolog": "^3.5",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "vlucas/phpdotenv": "^5.6"
     }
 }
