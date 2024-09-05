@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
+use Core\Containers\Container;
 use Core\Database\Connector;
-use Core\Database\DatabaseConfig;
 
-$dbConfig = new Connector(DatabaseConfig::getInstance());
+$db = \container('db');
 
-$product = $dbConfig->query('SELECT * FROM products where id = :id', ['id' => $_GET['id']])->first();
+$product = $db->query('SELECT * FROM products where id = :id', ['id' => $_GET['id']])->first();
 
 $title = $product->name . ' | My WebStore';
 $heading = 'Product Details';
