@@ -7,7 +7,7 @@ use Core\Database\DatabaseConfig;
 
 $dbConfig = new Connector(DatabaseConfig::getInstance());
 
-$product = $dbConfig->query('SELECT * FROM products where id = 1')->first();
+$product = $dbConfig->query('SELECT * FROM products where id = :id', ['id' => $_GET['id']])->first();
 
 $title = $product->name . ' | My WebStore';
 $heading = 'Product Details';
