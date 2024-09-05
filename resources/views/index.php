@@ -9,15 +9,15 @@
         <?php foreach ($products as $product) : ?>
             <div class="p-4 bg-white rounded-lg shadow-md">
                 <div class="relative">
-                    <div class="relative max-h-[170px] w-full overflow-hidden rounded-lg">
-                        <img src="<?= $product->image ?>" class="max-h-[170px] w-full" alt="Product Image" />
+                    <div class="relative max-h-[161px] w-full overflow-hidden rounded-lg">
+                        <img src="<?= $product->image ?>" class="max-h-[161px] w-full" alt="Product Image" />
                     </div>
 
                     <div class="relative mt-4">
                         <h3 class="text-sm font-medium text-gray-800">
                             <?= $product->name ?>
                         </h3>
-                        <p class="mt-1 text-sm text-gray-500">
+                        <p class="mt-1 text-sm text-gray-500 h-[200px] overflow-ellipsis">
                             <?= $product->description ?>
                         </p>
 
@@ -38,6 +38,7 @@
             </div>
         <?php endforeach; ?>
     </div>
+
 </main>
 
 <?php require 'includes/footer.php'; ?>
