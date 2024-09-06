@@ -29,15 +29,22 @@ class Connector
 
     public function get(): array
     {
-        return $this->getStatement()->fetchAll(PDO::FETCH_OBJ);
+        return $this->executeQuery()->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function first(): object
     {
-        return $this->getStatement()->fetch(PDO::FETCH_OBJ);
+        return $this->executeQuery()->fetch(PDO::FETCH_OBJ);
     }
 
-    private function getStatement(): PDOStatement
+    public function insert(): false | string
+    {
+        $this->executeQuery();
+
+        return $this->connection->lastInsertId();
+    }
+
+    private function executeQuery(): PDOStatement
     {
         $statement = $this->connection->prepare($this->query);
 
@@ -61,13 +68,6 @@ class Connector
 
             $statement->bindValue($key, $value, $pdoParams);
         }
-    }
-
-    public function insert(): false | string
-    {
-        $this->getStatement();
-
-        return $this->connection->lastInsertId();
     }
 
 }

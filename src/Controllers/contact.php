@@ -8,18 +8,22 @@ $title = 'Contact Us';
 $heading = $title;
 
 $messageWasSent = false;
+$failure = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     /** @var Connector $db */
     $db = container(Connector::class);
 
-    try {
-        $result = $db
-            ->query('INSERT INTO messages (name, email, source, message) VALUES (:name, :email, :source, :message)', $_POST)
-            ->insert();
 
+    $id = $result = $db
+        ->query('INSERT INTO messages (name, email, source, message) VALUES (:name, :email, :source, :message)', $_POST)
+        ->insert();
+
+    if ($id) {
         $messageWasSent = true;
-    } catch (Exception) {
+    } else {
+        $failure = true;
     }
 }
 

@@ -6,8 +6,13 @@
         <div class="mx-auto max-w-7xl py-6 px-8">
 
             <?php if ($messageWasSent) : ?>
-                <div class="mb-4 px-4 py-4 w-full rounded-lg bg-green-600 text-green-900 font-bold">
+                <div class="mb-4 px-4 py-4 w-full rounded-lg bg-green-400 text-green-900 font-bold">
                     Sua mensagem foi enviada com sucesso!
+                </div>
+            <?php endif ?>
+            <?php if ($failure) : ?>
+                <div class="mb-4 px-4 py-4 w-full rounded-lg bg-red-400 text-red-900 font-bold">
+                    Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente!
                 </div>
             <?php endif ?>
 
