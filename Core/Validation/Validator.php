@@ -7,6 +7,7 @@ namespace Core\Validation;
 class Validator
 {
     use Concerns\ValidatesAttributes;
+    use Concerns\ValidatesEmail;
 
     private array $messages = [];
 
