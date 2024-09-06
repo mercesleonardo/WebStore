@@ -6,6 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Core\Application;
 use Core\Containers\Container;
+use Core\Database\Connector;
 
 (new Application(Container::getInstance()))->run();
 

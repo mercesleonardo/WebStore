@@ -2,7 +2,9 @@
 
 declare(strict_types = 1);
 
-$db = \container('db');
+use Core\Database\Connector;
+
+$db = \container(Connector::class);
 
 $query = 'SELECT * FROM products where id = :id';
 $product = $db->query($query, ['id' => $_GET['id']])->first();

@@ -13,6 +13,6 @@ class ConfigureDatabase
     {}
     public function handle(): void
     {
-        $this->container->set('db.config', new DatabaseConfig());
+        $this->container->set(new DatabaseConfig());
     }
 }

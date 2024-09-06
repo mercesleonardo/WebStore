@@ -2,10 +2,12 @@
 
 declare(strict_types = 1);
 
+use Core\Database\Connector;
+
 $title = 'My WebStore';
 $heading = 'Home';
 
-$db = \container('db');
+$db = \container(Connector::class);
 
 $products = $db->query('SELECT * FROM products')->get();
 
