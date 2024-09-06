@@ -19,27 +19,47 @@
             <form method="post">
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" name="name" class="mt-1 block w-full form-input py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <input type="text" id="name" name="name" required maxlength="100" value="<?= $_POST['name'] ?? '' ?>" class="mt-1 block w-full form-input py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <?php if(isset($errors['name'])) : ?>
+                        <span class="text-red-400 text-sm">
+                            <?= $errors['name'][0] ?>
+                        </span>
+                    <?php endif;?>
                 </div>
 
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <input type="email" id="email" name="email" required maxlength="100" value="<?= $_POST['email'] ?? '' ?>" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <?php if(isset($errors['email'])) : ?>
+                        <span class="text-red-400 text-sm">
+                            <?= $errors['email'][0] ?>
+                        </span>
+                    <?php endif;?>
                 </div>
 
                 <div class="mb-4">
                     <label for="source" class="block text-sm font-medium text-gray-700">Where did you know us?</label>
-                    <select name="source" id="source" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <select name="source" id="source" required class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="google">Google</option>
                         <option value="facebook">Facebook</option>
                         <option value="twitter">Twitter</option>
                         <option value="instagram">Instagram</option>
                     </select>
+                    <?php if(isset($errors['source'])) : ?>
+                        <span class="text-red-400 text-sm">
+                            <?= $errors['source'][0] ?>
+                        </span>
+                    <?php endif;?>
                 </div>
 
                 <div class="mb-4">
                     <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                    <textarea id="message" name="message" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                    <textarea id="message" name="message" required maxlength="255" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><?= $_POST['message'] ?? '' ?></textarea>
+                    <?php if(isset($errors['message'])) : ?>
+                        <span class="text-red-400 text-sm">
+                            <?= $errors['message'][0] ?>
+                        </span>
+                    <?php endif;?>
                 </div>
 
                 <button type="reset" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
