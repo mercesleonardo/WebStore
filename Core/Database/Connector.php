@@ -63,4 +63,11 @@ class Connector
         }
     }
 
+    public function insert(): false | string
+    {
+        $this->getStatement();
+
+        return $this->connection->lastInsertId();
+    }
+
 }

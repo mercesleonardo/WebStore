@@ -5,11 +5,11 @@
     <main>
         <div class="mx-auto max-w-7xl py-6 px-8">
 
-<!--            --><?php //if ($messageWasSent) : ?>
-<!--                <div class="mb-4 px-4 py-4 w-full rounded-lg bg-green-600 text-green-900 font-bold">-->
-<!--                    Sua mensagem foi enviada com sucesso!-->
-<!--                </div>-->
-<!--            --><?php //endif ?>
+            <?php if ($messageWasSent) : ?>
+                <div class="mb-4 px-4 py-4 w-full rounded-lg bg-green-600 text-green-900 font-bold">
+                    Sua mensagem foi enviada com sucesso!
+                </div>
+            <?php endif ?>
 
             <form method="post">
                 <div class="mb-4">
