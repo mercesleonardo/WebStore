@@ -5,9 +5,9 @@ declare(strict_types = 1);
 namespace Core\Bootstrap;
 
 use Core\Application;
-use Core\Database\DatabaseConfig;
+use Core\Router\Router;
 
-class ConfigureDatabase
+class StartRouter
 {
     public function __construct(
         private Application $application
@@ -15,6 +15,6 @@ class ConfigureDatabase
 
     public function handle(): void
     {
-        $this->application->singleton(fn () => new DatabaseConfig());
+        $this->application->singleton(fn () => new Router());
     }
 }

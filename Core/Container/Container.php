@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Core\Containers;
+namespace Core\Container;
 
-use Core\Containers\Exceptions\DependencyNotInstantiableException;
-use Core\Containers\Exceptions\EntryNotFoundException;
+use Core\Container\Exceptions\DependencyNotInstantiableException;
+use Core\Container\Exceptions\EntryNotFoundException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -13,6 +13,7 @@ use ReflectionException;
 class Container implements ContainerInterface
 {
     private array $instances = [];
+
     private static Container $instance;
 
     public function get(string $id)
@@ -21,7 +22,7 @@ class Container implements ContainerInterface
             return $this->instances[$id];
         }
 
-        throw new EntryNotFoundException("No entry was found for [$id] identifier");
+        throw new EntryNotFoundException("No entry was found for [$id] identifier.");
     }
 
     public function has(string $id): bool
@@ -35,8 +36,8 @@ class Container implements ContainerInterface
             $concrete = $abstract;
         }
 
-        if (is_object($concrete)) {
-            $abstract = get_class($concrete);
+        if (is_object($abstract)) {
+            $abstract = get_class($abstract);
         }
 
         $this->instances[$abstract] = $concrete;
@@ -70,7 +71,6 @@ class Container implements ContainerInterface
 
             if ($this->has($dependency)) {
                 $instances[] = $this->get($dependency);
-
                 continue;
             }
 

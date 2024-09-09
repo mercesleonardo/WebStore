@@ -4,17 +4,20 @@ declare(strict_types = 1);
 
 namespace Core\Bootstrap;
 
-use Core\Containers\Container;
+use Core\Application;
+use Core\Container\Container;
 use Core\Database\Connector;
 
 class StartDatabase
 {
-    public function __construct(private Container $container)
-    {}
+    public function __construct(
+        private Application $application
+    ) {}
+
     public function handle(): void
     {
-        $connection = $this->container->build(Connector::class);
-
-        $this->container->set($connection);
+        $this->application->singleton(function (Container $container) {
+            return $container->build(Connector::class);
+        });
     }
 }
