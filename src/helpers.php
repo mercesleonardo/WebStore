@@ -74,9 +74,9 @@ if (!function_exists('format_money')) {
 }
 
 if (!function_exists('env')) {
-    function env(string $key, mixed $default = null): mixed
+    function env(string $key, $default = null): mixed
     {
-        return $_ENV[$key]?? $default;
+        return $_ENV[$key] ?? $default;
     }
 }
 
@@ -97,5 +97,16 @@ if (!function_exists('view')) {
     function view(string $view): string
     {
         return resource_path('views' . DIRECTORY_SEPARATOR . $view);
+    }
+}
+
+if (!function_exists('old')) {
+    function old(string $key): mixed
+    {
+        $value = $_SESSION['old'][$key] ?? '';
+
+        unset($_SESSION['old'][$key]);
+
+        return $value;
     }
 }

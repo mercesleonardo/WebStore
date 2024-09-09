@@ -10,7 +10,8 @@ $router = container(Router::class);
 //region Public Routes
 $router->get('/', 'home');
 $router->get('/product', 'product');
-$router->get('/contact', 'contact');
+$router->get('/contact', 'contact/create');
+$router->post('/contact', 'contact/store');
 //endregion
 
 //region Admin Routes
