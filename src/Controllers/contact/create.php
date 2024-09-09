@@ -8,6 +8,8 @@ $heading = $title;
 $messageWasSent = false;
 $failure = false;
 
-$errors = [];
+$sources = [
+    'google', 'facebook', 'twitter', 'instagram'
+];
 
 require view('contact.php');

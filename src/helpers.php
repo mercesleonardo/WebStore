@@ -103,10 +103,20 @@ if (!function_exists('view')) {
 if (!function_exists('old')) {
     function old(string $key): mixed
     {
-        $value = $_SESSION['old'][$key] ?? '';
+        return $_SESSION['old'][$key] ?? '';
+    }
+}
 
-        unset($_SESSION['old'][$key]);
+if (!function_exists('validation_error')) {
+    function validation_error(string $key): ?string
+    {
+        if (isset($_SESSION['errors'][$key])) {
+            $error = $_SESSION['errors'][$key][0] ?? null;
+            unset($_SESSION['errors'][$key]);
 
-        return $value;
+            return $error;
+        }
+
+        return null;
     }
 }

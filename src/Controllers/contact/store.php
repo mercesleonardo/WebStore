@@ -13,6 +13,8 @@ $validator = new Validator([
 ], $_POST);
 
 if ($validator->fails()) {
+    $_SESSION['errors'] = $validator->getErrors();
+
     header('Location: /contact');
     exit;
 }
@@ -24,10 +26,5 @@ $id = $db
     ->query('INSERT INTO messages (name, email, source, message) VALUES (:name, :email, :source, :message)', $_POST)
     ->insert();
 
-$_POST = [];
-
-if ($id === false) {
-    $failure = true;
-} else {
-    $messageWasSent = true;
-}
+unset($_SESSION['old']);
+header('Location: /contact');
