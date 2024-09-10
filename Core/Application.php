@@ -17,6 +17,7 @@ class Application
         \Core\Bootstrap\StartDatabase::class,
         \Core\Bootstrap\StartRouter::class,
         \Core\Bootstrap\LoadRoutes::class,
+        \Core\Bootstrap\StartSession::class,
     ];
 
     public function __construct(
