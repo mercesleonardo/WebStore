@@ -5,15 +5,15 @@
     <main>
         <div class="mx-auto max-w-7xl py-6 px-8">
 
-            <?php if ($messageWasSent) : ?>
+            <?php if ($success) : ?>
                 <div class="mb-4 px-4 py-4 w-full rounded-lg bg-green-400 text-green-900 font-bold">
-                    Sua mensagem foi enviada com sucesso!
+                    <?= $success ?>
                 </div>
             <?php endif ?>
 
-            <?php if ($failure) : ?>
+            <?php if ($error) : ?>
                 <div class="mb-4 px-4 py-4 w-full rounded-lg bg-red-400 text-red-900 font-bold">
-                    Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.
+                    <?= $error ?>
                 </div>
             <?php endif ?>
 

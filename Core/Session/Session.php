@@ -21,7 +21,7 @@ class Session
         while (count($keys) > 1) {
             $key = array_shift($keys);
 
-            if (!isset($session[$key]) ||!is_array($session[$key])) {
+            if (!isset($session[$key]) || !is_array($session[$key])) {
                 $session[$key] = [];
             }
 
@@ -31,7 +31,6 @@ class Session
         $session[array_shift($keys)] = $value;
 
         return $this;
-
     }
 
     public function get(string $key, mixed $default = null): mixed
@@ -57,9 +56,9 @@ class Session
         return $this;
     }
 
-    public function withErrors(array $input): self
+    public function withErrors(array $errors): self
     {
-        $this->flash('input', $input);
+        $this->flash('errors', $errors);
 
         return $this;
     }
@@ -73,7 +72,7 @@ class Session
 
     public function getError(string $key): ?string
     {
-        return $this->getFlash("errors.$key.0", []);
+        return $this->getFlash("errors.$key.0");
     }
 
     public function getOldInput(string $key, mixed $default = null): mixed

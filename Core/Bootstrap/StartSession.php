@@ -9,10 +9,7 @@ use Core\Session\Session;
 
 class StartSession
 {
-    public function __construct(private Application $application)
-    {
-
-    }
+    public function __construct(private Application $application) {}
 
     public function handle(): void
     {

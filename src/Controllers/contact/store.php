@@ -3,7 +3,11 @@
 declare(strict_types = 1);
 
 use Core\Database\Connector;
+use Core\Session\Session;
 use Core\Validation\Validator;
+
+/** @var Session $session */
+$session = container(Session::class);
 
 $validator = new Validator([
     'name'    => ['required', 'min:3', 'max:100'],
@@ -13,7 +17,7 @@ $validator = new Validator([
 ], $_POST);
 
 if ($validator->fails()) {
-    $_SESSION['errors'] = $validator->getErrors();
+    $session->withErrors($validator->getErrors())->withInput($_POST);
 
     header('Location: /contact');
     exit;
@@ -26,5 +30,14 @@ $id = $db
     ->query('INSERT INTO messages (name, email, source, message) VALUES (:name, :email, :source, :message)', $_POST)
     ->insert();
 
-unset($_SESSION['old']);
+$type = 'success';
+$message = 'Sua mensagem foi enviada com sucesso!';
+
+if (!$id) {
+    $type = 'danger';
+    $message = 'Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.';
+}
+
+$session->flash($type, $message);
+
 header('Location: /contact');
