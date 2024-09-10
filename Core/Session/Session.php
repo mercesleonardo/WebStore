@@ -73,12 +73,17 @@ class Session
 
     public function getError(string $key): ?string
     {
-        return $this->get('_flash.old.errors.' . $key . '.0');
+        return $this->getFlash("errors.$key.0", []);
     }
 
     public function getOldInput(string $key, mixed $default = null): mixed
     {
-        return $this->get('_flash.old.input.' . $key, $default);
+        return $this->getFlash("input.$key", $default);
+    }
+
+    public function getFlash(string $key, mixed $default = null): mixed
+    {
+        return $this->get("_flash.old.$key", $default);
     }
 
     private function agedSession(): void
