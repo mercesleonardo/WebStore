@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Core\Container\Container;
+use Core\Session\Session;
 
 if (!function_exists('base_path')) {
     function base_path(string $path = ''): string
@@ -101,22 +102,15 @@ if (!function_exists('view')) {
 }
 
 if (!function_exists('old')) {
-    function old(string $key): mixed
+    function old(string $key, mixed $default = null): mixed
     {
-        return $_SESSION['old'][$key] ?? '';
+        return \container(Session::class)->getOldInput($key, $default);
     }
 }
 
 if (!function_exists('validation_error')) {
     function validation_error(string $key): ?string
     {
-        if (isset($_SESSION['errors'][$key])) {
-            $error = $_SESSION['errors'][$key][0] ?? null;
-            unset($_SESSION['errors'][$key]);
-
-            return $error;
-        }
-
-        return null;
+        return \container(Session::class)->getError($key);
     }
 }
