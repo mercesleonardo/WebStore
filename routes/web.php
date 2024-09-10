@@ -15,6 +15,9 @@ $router->post('/contact', 'contact/store');
 //endregion
 
 //region Admin Routes
+$router->get('/admin/login', 'admin/login/index');
+$router->post('/admin/login', 'admin/login/login');
+
 $router->get('/admin/messages', 'admin/messages');
 //endregion
 

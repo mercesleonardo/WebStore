@@ -37,5 +37,10 @@ trait ValidatesAttributes
         return strlen($value) >= $parameter;
     }
 
+    protected function validateString($value): bool
+    {
+        return is_string($value);
+    }
+
 
 }

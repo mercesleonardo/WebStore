@@ -32,7 +32,7 @@ class Connector
         return $this->executeQuery()->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function first(): object
+    public function first(): object | false
     {
         return $this->executeQuery()->fetch(PDO::FETCH_OBJ);
     }
