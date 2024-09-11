@@ -10,7 +10,7 @@ trait ValidatesAttributes
     {
         if (is_null($value)) {
             return false;
-        } else if (is_string($value) && trim($value) === '') {
+        } else if (is_string($value) && trim($value) == '') {
             return false;
         } else if (is_countable($value) && count($value) < 1) {
             return false;
@@ -41,6 +41,4 @@ trait ValidatesAttributes
     {
         return is_string($value);
     }
-
-
 }

@@ -6,9 +6,10 @@ namespace Core\Database;
 
 class DatabaseConfig
 {
-    private static $instance = null;
     private array $config;
+
     private string $username;
+
     private string $password;
 
     public function __construct()
@@ -22,7 +23,7 @@ class DatabaseConfig
 
         unset($config['username'], $config['password']);
 
-        $this->config = $config;
+        $this->config   = $config;
         $this->username = $username;
         $this->password = $password;
     }
@@ -40,14 +41,5 @@ class DatabaseConfig
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public static function getInstance(): self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
     }
 }

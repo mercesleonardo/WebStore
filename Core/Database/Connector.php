@@ -10,18 +10,21 @@ use PDOStatement;
 class Connector
 {
     protected PDO $connection;
+
     protected ?string $query = null;
+
     protected array $params = [];
 
     public function __construct(DatabaseConfig $config)
     {
-        $dsn ='mysql:' . http_build_query($config->getConfig(), arg_separator: ';');
+        $dsn = 'mysql:' . http_build_query($config->getConfig(), arg_separator: ';');
+
         $this->connection = new PDO($dsn, $config->getUsername(), $config->getPassword());
     }
 
     public function query(string $query, array $params = []): self
     {
-        $this->query = $query;
+        $this->query  = $query;
         $this->params = $params;
 
         return $this;
@@ -53,7 +56,6 @@ class Connector
         $statement->execute();
 
         return $statement;
-
     }
 
     private function bindParameters(PDOStatement $statement): void
@@ -63,11 +65,10 @@ class Connector
         }
 
         foreach ($this->params as $key => $value) {
-            $key = is_int($key) ? $key + 1 : $key;
+            $key       = is_int($key) ? $key + 1 : $key;
             $pdoParams = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
 
             $statement->bindValue($key, $value, $pdoParams);
         }
     }
-
 }

@@ -22,7 +22,7 @@ class Container implements ContainerInterface
             return $this->instances[$id];
         }
 
-        throw new EntryNotFoundException("No entry was found for [$id] identifier.");
+        return $this->build($id);
     }
 
     public function has(string $id): bool

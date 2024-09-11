@@ -20,7 +20,7 @@ $router->post('/auth/login', 'auth/login');
 //endregion
 
 //region Admin Routes
-$router->get('/admin/messages', 'admin/messages');
+$router->get('/admin/messages', 'admin/messages')->middlewares('auth', 'admin');
 //endregion
 
 container()->set($router);

@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use Core\Auth\Auth;
 use Core\Session\Session;
 use Core\Validation\Validator;
 
@@ -11,32 +12,22 @@ $validator = new Validator([
 ], $_POST);
 
 $session = container(Session::class);
+$auth = container(Auth::class);
 
 if ($validator->fails()) {
-    unset($_POST['password']);
-
     $session
         ->withInput($_POST)
         ->withErrors($validator->getErrors());
 
-    header('Location: /auth');
-    exit();
+    redirect('/auth');
 }
 
-$user = container(Core\Database\Connector::class)
-    ->query('SELECT * FROM users WHERE email = :email', ['email' => $_POST['email']])
-    ->first();
-
-if (!$user || !password_verify($_POST['password'], $user->password)) {
-    unset($_POST['password']);
-
+if (!$auth->attempt($_POST['email'], $_POST['password'])) {
     $session
         ->withInput($_POST)
         ->flash('error', 'User not found or wrong password.');
 
-    header('Location: /auth');
-    exit();
+    redirect('/auth');
 }
 
-$session->put('user', $user);
-header('Location: /admin/messages');
+redirect('/admin/messages');

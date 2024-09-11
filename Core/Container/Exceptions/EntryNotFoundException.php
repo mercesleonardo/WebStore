@@ -11,6 +11,6 @@ class EntryNotFoundException extends RuntimeException implements NotFoundExcepti
 {
     public function __construct(string $concrete)
     {
-        parent::__construct('No entry was found for' . $concrete . 'identifier');
+        parent::__construct("No entry was found for [$concrete] identifier.");
     }
 }

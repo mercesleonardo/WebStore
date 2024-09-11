@@ -17,10 +17,11 @@ $validator = new Validator([
 ], $_POST);
 
 if ($validator->fails()) {
-    $session->withErrors($validator->getErrors())->withInput($_POST);
+    $session
+        ->withErrors($validator->getErrors())
+        ->withInput($_POST);
 
-    header('Location: /contact');
-    exit;
+    redirect('/contact');
 }
 
 /** @var Connector $db */
@@ -40,4 +41,4 @@ if (!$id) {
 
 $session->flash($type, $message);
 
-header('Location: /contact');
+redirect('/contact');

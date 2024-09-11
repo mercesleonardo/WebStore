@@ -1,15 +1,18 @@
-<?php require 'includes/head.php'; ?>
-<?php require 'includes/top-nav.php'; ?>
+<?php require view('includes/head.php') ?>
+<?php require view('includes/top-nav.php') ?>
 
 <main>
     <div class="mx-auto max-w-7xl py-6 px-8">
-        <h1 class="text-3xl leading-6 font-black">404 - not found</h1>
+        <h1 class="text-3xl leading-6 font-bold">
+            404 - Not Found
+        </h1>
 
-        <div class="mt-10"></div>
-        <a href="/">
-            Back to Home
-        </a>
+        <div class="mt-10">
+            <a href="/" >
+                Back to Home
+            </a>
+        </div>
     </div>
 </main>
 
-<?php require 'includes/footer.php'; ?>
+<?php require view('includes/footer.php') ?>

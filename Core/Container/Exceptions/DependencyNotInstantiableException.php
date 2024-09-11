@@ -10,6 +10,6 @@ class DependencyNotInstantiableException extends Exception
 {
     public function __construct(string $concrete)
     {
-        parent::__construct('Dependency' . $concrete . 'cannot be instantiated');
+        parent::__construct('Dependency ' . $concrete . ' is not instantiable.');
     }
 }

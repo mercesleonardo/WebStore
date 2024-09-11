@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Core\Bootstrap;
 
@@ -9,7 +9,9 @@ use Core\Session\Session;
 
 class StartSession
 {
-    public function __construct(private Application $application) {}
+    public function __construct(
+        private Application $application
+    ) {}
 
     public function handle(): void
     {

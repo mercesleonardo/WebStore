@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Core\Container\Container;
+use Core\Http\Response;
 use Core\Session\Session;
 
 if (!function_exists('base_path')) {
@@ -117,5 +118,13 @@ if (!function_exists('validation_error')) {
     function validation_error(string $key): ?string
     {
         return \container(Session::class)->getError($key);
+    }
+}
+
+if (!function_exists('redirect')) {
+    function redirect(string $url, int $code = Response::HTTP_FOUND): never
+    {
+        header("Location: $url", true, $code);
+        exit();
     }
 }

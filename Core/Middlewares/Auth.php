@@ -4,19 +4,18 @@ declare(strict_types = 1);
 
 namespace Core\Middlewares;
 
-use Core\Session\Session;
+use Core\Auth\Auth as Authentication;
 
 class Auth
 {
     public function __construct(
-        private Session $session
+        protected Authentication $auth,
     ) {}
 
     public function handle(): void
     {
-        if ($this->session->get('user') === null) {
-            header('Location: /auth');
-            exit;
+        if ($this->auth->user() === null) {
+            redirect('/auth');
         }
     }
 }
