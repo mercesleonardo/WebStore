@@ -33,6 +33,8 @@ class Router
         $this->addMethod($uri, $controller, 'DELETE');
     }
 
+    //Aqui
+
     private function addMethod(string $uri, string $controller, string $method): void
     {
         $this->routes[] = [

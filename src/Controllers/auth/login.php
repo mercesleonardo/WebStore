@@ -19,7 +19,7 @@ if ($validator->fails()) {
         ->withInput($_POST)
         ->withErrors($validator->getErrors());
 
-    header('Location: /admin/login');
+    header('Location: /auth');
     exit();
 }
 
@@ -34,7 +34,7 @@ if (!$user || !password_verify($_POST['password'], $user->password)) {
         ->withInput($_POST)
         ->flash('error', 'User not found or wrong password.');
 
-    header('Location: /admin/login');
+    header('Location: /auth');
     exit();
 }
 

@@ -8,7 +8,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action="/admin/login" method="POST" class="space-y-6">
+        <form action="/auth/login" method="POST" class="space-y-6">
             <?php if ($error) : ?>
                 <div class="mb-4 px-4 py-4 w-full rounded-lg bg-red-400 text-red-900 font-bold">
                     <?= $error ?>
@@ -18,14 +18,14 @@
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    class="mt-1 block w-full form-input py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    required
-                    maxlength="100"
-                    value="<?= old('email') ?>"
-                    autofocus
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="mt-1 block w-full form-input py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                        maxlength="100"
+                        value="<?= old('email') ?>"
+                        autofocus
                 >
 
                 <?php if($error = validation_error('email')) : ?>
@@ -38,13 +38,13 @@
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="mt-1 block w-full form-input py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    required
-                    maxlength="100"
-                    value="<?= old('password') ?>"
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="mt-1 block w-full form-input py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                        maxlength="100"
+                        value="<?= old('password') ?>"
                 >
 
                 <?php if($error = validation_error('password')) : ?>

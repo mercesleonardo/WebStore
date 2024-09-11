@@ -7,4 +7,4 @@ use Core\Session\Session;
 $title = 'Admin Login';
 $error = container(Session::class)->getFlash('error');
 
-require view('admin/login/index.php');
+require view('auth/index.php');
