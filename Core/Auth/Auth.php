@@ -27,6 +27,13 @@ class Auth
         return true;
     }
 
+    public function logout(): void
+    {
+        $this->session->forget('user.id');
+
+        session_regenerate_id(true);
+    }
+
     public function user(): object | false | null
     {
         if ($userId = $this->session->get('user.id')) {
@@ -45,5 +52,10 @@ class Auth
             ->db
             ->query('SELECT * FROM users WHERE email = :email', ['email' => $email])
             ->first();
+    }
+
+    public function check(): bool
+    {
+        return $this->session->has('user.id');
     }
 }

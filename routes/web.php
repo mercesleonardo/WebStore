@@ -17,6 +17,7 @@ $router->post('/contact', 'contact/store');
 //region Auth Routes
 $router->get('/auth', '/auth/index');
 $router->post('/auth/login', 'auth/login');
+$router->get('/auth/logout', 'auth/logout')->middlewares('auth');
 //endregion
 
 //region Admin Routes

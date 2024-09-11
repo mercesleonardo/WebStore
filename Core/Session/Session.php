@@ -94,4 +94,29 @@ class Session
         $this->put('_flash.old', $this->get('_flash.new', []));
         $this->put('_flash.new', []);
     }
+
+    public function forget(string $key): static
+    {
+        $keys = explode('.', $key);
+        $session =& $_SESSION;
+
+        while (count($keys) > 1) {
+            $key = array_shift($keys);
+
+            if (!isset($session[$key]) || !is_array($session[$key])) {
+                $session[$key] = [];
+            }
+
+            $session =& $session[$key];
+        }
+
+        unset($session[array_shift($keys)]);
+
+        return $this;
+    }
+
+    public function has(string $string): bool
+    {
+        return $this->get($string) !== null;
+    }
 }
