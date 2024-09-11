@@ -18,6 +18,7 @@ class Application
         \Core\Bootstrap\StartRouter::class,
         \Core\Bootstrap\LoadRoutes::class,
         \Core\Bootstrap\StartSession::class,
+        \Core\Bootstrap\ConfigureAuth::class,
     ];
 
     public function __construct(

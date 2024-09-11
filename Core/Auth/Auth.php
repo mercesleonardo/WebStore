@@ -9,6 +9,8 @@ use Core\Session\Session;
 
 class Auth
 {
+    private ?object $user = null;
+
     public function __construct(
         protected Connector $db,
         protected Session $session
@@ -36,14 +38,19 @@ class Auth
 
     public function user(): object | false | null
     {
-        if ($userId = $this->session->get('user.id')) {
-            return $this
-                ->db
-                ->query('SELECT * FROM users WHERE id = :id', ['id' => $userId])
-                ->first();
+        return $this->user;
+    }
+
+    public function attachUser(): void
+    {
+        if (!$this->check()) {
+            return;
         }
 
-        return null;
+        $this->user = $this
+            ->db
+            ->query('SELECT * FROM users WHERE id = :id', ['id' => $this->session->get('user.id')])
+            ->first();
     }
 
     protected function getUserByEmail(string $email): object | false
