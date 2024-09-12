@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import forms from '@tailwindcss/forms'
+
+export default {
   content: [
       './resources/**/*.phtml',
     './resources/**/*.php',
@@ -7,8 +8,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [
-      require('@tailwindcss/forms')
-  ],
+  plugins: [forms],
 }
 
