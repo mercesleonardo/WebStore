@@ -6,4 +6,4 @@
 /public/build
 /public/hot
 /public/mix-manifest.json
-.env
+../../../Área de Trabalho/30-php-30-52-configurando-vite-dev/.env
