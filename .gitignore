@@ -3,5 +3,7 @@
 /node_modules/
 /public/css
 /public/js
+/public/build
+/public/hot
 /public/mix-manifest.json
 .env
