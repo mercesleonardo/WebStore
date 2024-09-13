@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Core\Container\Container;
+use Core\Html\View;
 use Core\Http\Response;
 use Core\Session\Session;
 
@@ -38,11 +39,12 @@ if (!function_exists('abort')) {
     {
         http_response_code($code);
 
-        require resource_path('views/' . $code . '.php');
+        echo (new View('error'))->render('errors/' . $code);
 
         die();
     }
 }
+
 
 if (!function_exists('route_is')) {
     function route_is(string $route): bool
