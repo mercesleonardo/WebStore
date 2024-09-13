@@ -2,9 +2,13 @@
 
 declare(strict_types = 1);
 
+use Core\Html\View;
 use Core\Session\Session;
 
-$title = 'Admin Login';
 $error = container(Session::class)->getFlash('error');
 
-require view('auth/index.php');
+echo (new View('login'))
+    ->render('auth/index', [
+        'title' => 'Admin Login',
+        'error' => $error
+    ]);
