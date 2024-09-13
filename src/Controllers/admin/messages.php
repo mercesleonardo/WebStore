@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Core\Database\Connector;
+use Core\Html\View;
 
 $title   = 'My Messages';
 $heading = $title;
@@ -13,4 +14,9 @@ $messages = $db
     ->query('SELECT * FROM messages')
     ->get();
 
-require resource_path('views/admin/messages.php');
+echo (new View())
+    ->render('admin/messages', [
+        'title'    => $title,
+        'heading'  => $heading,
+        'messages' => $messages
+    ]);
