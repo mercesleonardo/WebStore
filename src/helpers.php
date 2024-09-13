@@ -13,20 +13,6 @@ if (!function_exists('base_path')) {
     }
 }
 
-if (!function_exists('mix')) {
-    function mix(string $path): string
-    {
-        if (!file_exists(base_path('public/mix-manifest.json'))) {
-            throw new RuntimeException('The Mix manifest does not exist.');
-        }
-
-        $content = file_get_contents(base_path('public/mix-manifest.json'));
-        $content = json_decode($content, true);
-
-        return $content[$path] ?? '';
-    }
-}
-
 if (!function_exists('resource_path')) {
     function resource_path(string $path = ''): string
     {
