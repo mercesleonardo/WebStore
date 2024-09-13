@@ -1,6 +1,6 @@
 {
-    "name": "pinguimacademy/curso-php-basico",
-    "description": "Curso de PHP da pinguim academy",
+    "name": "WebStore",
+    "description": "Project for storing information about a WebStore",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -8,7 +8,8 @@
             "Core\\": "Core/"
         },
         "files": [
-            "src/helpers.php"
+            "src/helpers.php",
+            "Core/Http/helpers.php"
         ]
     },
     "authors": [
