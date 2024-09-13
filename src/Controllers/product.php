@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Core\Database\Connector;
+use Core\Html\View;
 
 $db = \container(Connector::class);
 
@@ -10,7 +11,9 @@ $product = $db
     ->query('SELECT * FROM products where id = :id', ['id' => $_GET['id']])
     ->first();
 
-$title   = $product->name . ' | My WebStore';
-$heading = 'Product Details';
-
-require view('product.php');
+echo (new View())
+    ->render('product', [
+        'title' => $product->name . ' | My WebStore',
+        'heading' => 'Product Details',
+        'product' => $product,
+    ]);
