@@ -1,9 +1,6 @@
 .idea
 /vendor/
 /node_modules/
-/public/css
-/public/js
 /public/build
 /public/hot
-/public/mix-manifest.json
 ../../../Área de Trabalho/30-php-30-52-configurando-vite-dev/.env
