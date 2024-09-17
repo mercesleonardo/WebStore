@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Core\Router;
 
 use Core\Http\Request;
-use Core\Middlewares\Middleware;
 use Core\Router\Loader\RouteLoader;
 use ReflectionClass;
 
@@ -14,19 +13,17 @@ class Router
     private array $routes = [];
 
     public function __construct(
-        private Request $request,
-        private Middleware $middleware,
         private RouteLoader $routeLoader
     ) {
         $this->addLoadedRoutes();
     }
 
-    public function findRoute(): mixed
+    public function findRoute(Request $request): Route
     {
         $route = array_values(
             array_filter($this->routes, fn (Route $route) => $route->match(
-                $this->request->path(),
-                $this->request->method()
+                $request->path(),
+                $request->method()
             ))
         );
 
@@ -34,21 +31,7 @@ class Router
             abort();
         }
 
-        /** @var Route $route */
-        $route = $route[0];
-
-        $this->checkAndRunMiddlewares($route->middlewares);
-
-        return $route->run();
-    }
-
-    private function checkAndRunMiddlewares(array $middlewares): void
-    {
-        foreach ($middlewares as $middleware) {
-            container()
-                ->build($this->middleware->getMiddleware($middleware))
-                ->handle();
-        }
+        return $route[0];
     }
 
     private function addLoadedRoutes(): void
