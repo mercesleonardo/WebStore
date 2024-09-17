@@ -80,6 +80,29 @@ class Container implements ContainerInterface
         return $reflection->newInstanceArgs($instances);
     }
 
+    public function call(string $class, string $method)
+    {
+        $instance        = $this->build($class);
+        $dependencyStack = [];
+
+        $parameters = (new ReflectionClass($class))
+            ->getMethod($method)
+            ->getParameters();
+
+        foreach ($parameters as $parameter) {
+            $dependency = $parameter->getType()->getName();
+
+            if ($this->has($dependency)) {
+                $dependencyStack[] = $this->get($dependency);
+                continue;
+            }
+
+            $dependencyStack[] = $this->build($dependency);
+        }
+
+        return $instance->{$method}(...$dependencyStack);
+    }
+
     public static function getInstance(): Container
     {
         if (!isset(self::$instance)) {

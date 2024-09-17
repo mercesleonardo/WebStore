@@ -6,8 +6,12 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Core\Application;
 use Core\Container\Container;
+use Core\Http\Request;
 
-(new Application(
+$response = (new Application(
+    Request::createFromGlobals(),
     Container::getInstance()
 ))->run();
+
+$response->send();
 

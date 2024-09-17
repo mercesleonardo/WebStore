@@ -4,80 +4,93 @@ declare(strict_types = 1);
 
 namespace Core\Router;
 
+use Core\Http\Request;
 use Core\Middlewares\Middleware;
+use Core\Router\Loader\RouteLoader;
+use ReflectionClass;
 
 class Router
 {
     private array $routes = [];
 
     public function __construct(
-        private Middleware $middleware
-    ) {}
-
-    public function get(string $uri, string $controller): Router
-    {
-        return $this->addMethod($uri, $controller, 'GET');
+        private Request $request,
+        private Middleware $middleware,
+        private RouteLoader $routeLoader
+    ) {
+        $this->addLoadedRoutes();
     }
 
-    public function post(string $uri, string $controller): Router
+    public function findRoute(): mixed
     {
-        return $this->addMethod($uri, $controller, 'POST');
-    }
+        $route = array_values(
+            array_filter($this->routes, fn (Route $route) => $route->match(
+                $this->request->path(),
+                $this->request->method()
+            ))
+        );
 
-    public function put(string $uri, string $controller): Router
-    {
-        return $this->addMethod($uri, $controller, 'PUT');
-    }
-
-    public function patch(string $uri, string $controller): Router
-    {
-        return $this->addMethod($uri, $controller, 'PATCH');
-    }
-
-    public function delete(string $uri, string $controller): Router
-    {
-        return $this->addMethod($uri, $controller, 'DELETE');
-    }
-
-    public function middlewares(...$middlewares): void
-    {
-        $this->routes[array_key_last($this->routes)]['middlewares'] = $middlewares;
-    }
-
-    private function addMethod(string $uri, string $controller, string $method): Router
-    {
-        $this->routes[] = [
-            'uri'        => $uri,
-            'controller' => $controller,
-            'method'     => $method,
-        ];
-
-        return $this;
-    }
-
-    public function findRoute(string $uri, string $method): void
-    {
-        foreach ($this->routes as $route) {
-            if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
-                $this->checkAndRunMiddlewares($route);
-
-                require base_path('src/Controllers/' . $route['controller'] . '.php');
-
-                return;
-            }
+        if (count($route) === 0) {
+            abort();
         }
 
-        abort();
+        /** @var Route $route */
+        $route = $route[0];
+
+        $this->checkAndRunMiddlewares($route->middlewares);
+
+        return $route->run();
     }
 
-    private function checkAndRunMiddlewares(array $route): void
+    private function checkAndRunMiddlewares(array $middlewares): void
     {
-        if (isset($route['middlewares'])) {
-            foreach ($route['middlewares'] as $middleware) {
-                container()
-                    ->build($this->middleware->getMiddleware($middleware))
-                    ->handle();
+        foreach ($middlewares as $middleware) {
+            container()
+                ->build($this->middleware->getMiddleware($middleware))
+                ->handle();
+        }
+    }
+
+    private function addLoadedRoutes(): void
+    {
+        $routes = $this->routeLoader->getRoutes();
+
+        foreach ($routes as $route) {
+            $reflection = new ReflectionClass($route);
+
+            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                $attributes = $method->getAttributes(Attributes\Route::class);
+
+                if (count($attributes) === 0) {
+                    continue;
+                }
+
+                /** @var Attributes\Route $attribute */
+                $attribute = $attributes[0]->newInstance();
+
+                if ($this->routeIsAlreadyRegistered($attribute)) {
+                    throw new RouteAlreadyDefinedException($attribute);
+                }
+
+                $this->routes[] = new Route(
+                    uri: $attribute->path,
+                    controller: $route,
+                    method: $attribute->method,
+                    action: $method->getName(),
+                    middlewares: $attribute->middlewares
+                );
             }
         }
+    }
+
+    private function routeIsAlreadyRegistered(Attributes\Route $attribute): bool
+    {
+        $count = array_filter(
+            $this->routes,
+            fn (Route $route) => $route->uri === $attribute->path
+                && $route->method === $attribute->method
+        );
+
+        return count($count) > 0;
     }
 }
