@@ -12,9 +12,9 @@ if (!function_exists('response')) {
     }
 }
 
-/*if (!function_exists('redirect')) {
-    function redirect(string $url, int $statusCode = 302, array $headers = []): Response
+if (!function_exists('redirect')) {
+    function redirect(string $url, int $statusCode = 302, array $headers = []): RedirectResponse
     {
         return new RedirectResponse($url, $statusCode, $headers);
     }
-}*/
+}

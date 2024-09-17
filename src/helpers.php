@@ -45,7 +45,6 @@ if (!function_exists('abort')) {
     }
 }
 
-
 if (!function_exists('route_is')) {
     function route_is(string $route): bool
     {
@@ -88,13 +87,6 @@ if (!function_exists('container')) {
     }
 }
 
-if (!function_exists('view')) {
-    function view(string $view): string
-    {
-        return resource_path('views' . DIRECTORY_SEPARATOR . $view);
-    }
-}
-
 if (!function_exists('old')) {
     function old(string $key, mixed $default = null): mixed
     {
@@ -106,13 +98,5 @@ if (!function_exists('validation_error')) {
     function validation_error(string $key): ?string
     {
         return \container(Session::class)->getError($key);
-    }
-}
-
-if (!function_exists('redirect')) {
-    function redirect(string $url, int $code = Response::HTTP_FOUND): never
-    {
-        header("Location: $url", true, $code);
-        exit();
     }
 }

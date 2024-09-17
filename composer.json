@@ -1,5 +1,5 @@
 {
-    "name": "WebStore",
+    "name": "webstore/webstore",
     "description": "Project for storing information about a WebStore",
     "type": "project",
     "autoload": {
@@ -9,7 +9,8 @@
         },
         "files": [
             "src/helpers.php",
-            "Core/Http/helpers.php"
+            "Core/Http/helpers.php",
+            "Core/Html/helpers.php"
         ]
     },
     "authors": [
