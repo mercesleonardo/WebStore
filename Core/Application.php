@@ -6,13 +6,8 @@ namespace Core;
 
 use Closure;
 use Core\Container\Container;
-use Core\Http\JsonResponse;
-use Core\Http\Request;
-use Core\Http\Response;
-use Core\Middlewares\Middleware;
-use Core\Router\Router;
 
-class Application
+class Application extends Container
 {
     private array $bootstrappers = [
         \Core\Bootstrap\LoadEnvFile::class,
@@ -24,19 +19,9 @@ class Application
         \Core\Bootstrap\ConfigureAuth::class,
     ];
 
-    public function __construct(
-        private Request $request,
-        private Container $container
-    )
-    {
-        $this->container->set($this->request);
-    }
-
-    public function run(): Response
+    public function __construct()
     {
         $this->bootstrap();
-
-        return $this->dispatchToRouter();
     }
 
     private function bootstrap(): void
@@ -48,36 +33,11 @@ class Application
         }
     }
 
-    private function dispatchToRouter(): Response
-    {
-        $this->runGlobalMiddlewares();
 
-        /** @var Router $router */
-        $router   = $this->container->get(Router::class);
-        $response = $router->findRoute();
 
-        if ($response instanceof Response) {
-            return $response;
-        }
-
-        if (is_array($response)) {
-            return new JsonResponse($response);
-        }
-
-        return new Response($response);
-    }
-
-    private function runGlobalMiddlewares(): void
-    {
-        $middlewares = Middleware::getGlobalMiddlewares();
-
-        foreach ($middlewares as $middleware) {
-            $this->container->build($middleware)->handle();
-        }
-    }
 
     public function singleton(Closure $closure): void
     {
-        $this->container->set($closure($this->container));
+        $this->set($closure($this));
     }
 }
