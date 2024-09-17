@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Auth;
 
 use Core\Auth\Auth;
+use Core\Html\View;
 use Core\Http\Enums\HttpMethod;
 use Core\Http\RedirectResponse;
 use Core\Http\Request;
@@ -22,9 +23,8 @@ class AuthController
     #[Route('/auth')]
     public function index(): string
     {
-        return view('auth/index', [
+        return (new View('login'))->render('auth/index', [
             'title' => 'Admin Login',
-            'heading' => 'Admin Login',
             'error' => $this->session->getFlash('error')
         ]);
     }
