@@ -2,9 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace Core\Middlewares;
+namespace Core\Auth\Middlewares;
 
+use Closure;
 use Core\Auth\Auth as Authentication;
+use Core\Http\Request;
 
 class Auth
 {
@@ -12,10 +14,12 @@ class Auth
         protected Authentication $auth,
     ) {}
 
-    public function handle(): void
+    public function handle(Request $request, Closure $next)
     {
         if ($this->auth->user() === null) {
-            redirect('/auth');
+            return redirect('/auth');
         }
+
+        return $next($request);
     }
 }

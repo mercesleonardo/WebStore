@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Core\Middlewares;
 
+use Core\Auth\Middlewares\Auth;
+use Core\Auth\Middlewares\IsAdmin;
 use Core\Auth\Middlewares\StartAndAttachUser;
 use Exception;
 

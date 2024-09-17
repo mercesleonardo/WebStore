@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Core\Http;
 
 use Core\Application;
+use Core\Auth\Middlewares\Auth;
+use Core\Auth\Middlewares\IsAdmin;
 use Core\Auth\Middlewares\StartAndAttachUser;
-use Core\Middlewares\Auth;
-use Core\Middlewares\IsAdmin;
 use Core\Pipeline\Pipeline;
 use Core\Router\Router;
 use Exception;
