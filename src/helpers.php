@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use Core\Application;
 use Core\Container\Container;
 use Core\Html\View;
 use Core\Http\Response;
@@ -77,7 +78,7 @@ if (!function_exists('container')) {
      */
     function container(string $service = null): mixed
     {
-        $container = Container::getInstance();
+        $container = Application::getInstance();
 
         if (is_string($service)) {
             return $container->get($service);
