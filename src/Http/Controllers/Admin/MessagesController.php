@@ -9,7 +9,7 @@ use Core\Router\Attributes\Route;
 
 class MessagesController
 {
-    #[Route('/admin/messages')]
+    #[Route('/admin/messages', middlewares: ['auth', 'admin'])]
     public function __invoke(Connector $db): string
     {
         $messages = $db
