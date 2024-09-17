@@ -5,13 +5,13 @@ declare(strict_types = 1);
 require __DIR__ . '/../vendor/autoload.php';
 
 use Core\Application;
-use Core\Container\Container;
+use Core\Http\Kernel;
 use Core\Http\Request;
 
-$response = (new Application(
-    Request::createFromGlobals(),
-    Container::getInstance()
-))->run();
+$app = Application::getInstance();
+$kernel = $app->build(Kernel::class);
 
-$response->send();
+$kernel->handle(
+    Request::createFromGlobals()
+)->send();
 

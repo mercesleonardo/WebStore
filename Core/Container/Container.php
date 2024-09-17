@@ -43,6 +43,11 @@ class Container implements ContainerInterface
         $this->instances[$abstract] = $concrete;
     }
 
+    /**
+     * @template T of object
+     * @param string|class-string<T> $concrete
+     * @return class-string<T>
+     */
     public function build($concrete)
     {
         try {
