@@ -25,7 +25,7 @@ class AuthController
     {
         return (new View('login'))->render('auth/index', [
             'title' => 'Admin Login',
-            'error' => $this->session->getFlash('error')
+            'error' => $this->session->getFlash('error'),
         ]);
     }
 

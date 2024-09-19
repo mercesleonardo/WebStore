@@ -1,4 +1,6 @@
-<?php use Core\Html\Vite; ?>
+<?php use Core\Html\Vite;
+
+?>
 <!doctype html>
 <html lang="en" class="h-full bg-gray-100">
 <head>

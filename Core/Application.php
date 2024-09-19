@@ -12,14 +12,14 @@ use Core\Session\Session;
 class Application extends Container
 {
     private array $bootstrappers = [
-        \Core\Bootstrap\LoadEnvFile::class,
-        \Core\Bootstrap\ConfigureDatabase::class,
-        \Core\Bootstrap\StartDatabase::class,
-        \Core\Bootstrap\StartRouter::class,
-        \Core\Bootstrap\LoadRoutes::class,
-        \Core\Bootstrap\StartSession::class,
-        \Core\Bootstrap\ConfigureAuth::class,
-        \Core\Bootstrap\StartRedirector::class,
+        Bootstrap\LoadEnvFile::class,
+        Bootstrap\ConfigureDatabase::class,
+        Bootstrap\StartDatabase::class,
+        Bootstrap\StartRouter::class,
+        Bootstrap\LoadRoutes::class,
+        Bootstrap\StartSession::class,
+        Bootstrap\ConfigureAuth::class,
+        Bootstrap\StartRedirector::class,
     ];
 
     public function __construct()

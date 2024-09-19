@@ -5,7 +5,6 @@ declare(strict_types = 1);
 use Core\Application;
 use Core\Container\Container;
 use Core\Html\View;
-use Core\Http\Response;
 use Core\Session\Session;
 
 if (!function_exists('base_path')) {

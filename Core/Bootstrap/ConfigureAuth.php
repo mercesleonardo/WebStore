@@ -17,7 +17,7 @@ class ConfigureAuth
     public function handle(): void
     {
         $this->app->singleton(
-            fn (Container $container) => $container->build(Auth::class)
+            fn(Container $container) => $container->build(Auth::class)
         );
     }
 }

@@ -15,6 +15,6 @@ class ConfigureDatabase
 
     public function handle(): void
     {
-        $this->application->singleton(fn () => new DatabaseConfig());
+        $this->application->singleton(fn() => new DatabaseConfig());
     }
 }

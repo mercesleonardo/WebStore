@@ -41,7 +41,7 @@ class Kernel
             $response = (new Pipeline($this->app))
                 ->send($request)
                 ->through($middlewares)
-                ->then(fn () => $route->run());
+                ->then(fn() => $route->run());
 
             if ($response instanceof Response) {
                 return $response;

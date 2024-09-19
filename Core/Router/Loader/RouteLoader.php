@@ -51,12 +51,12 @@ class RouteLoader
         $files = iterator_to_array(new RecursiveIteratorIterator(
             new RecursiveCallbackFilterIterator(
                 new RecursiveDirectoryIterator($this->controllersDir, FilesystemIterator::SKIP_DOTS | FilesystemIterator::FOLLOW_SYMLINKS),
-                fn (SplFileInfo $current) => !str_starts_with($current->getBasename(), '.')
+                fn(SplFileInfo $current) => !str_starts_with($current->getBasename(), '.')
             ),
             RecursiveIteratorIterator::SELF_FIRST
         ));
 
-        return array_filter($files, fn (SplFileInfo $file) => $file->isFile());
+        return array_filter($files, fn(SplFileInfo $file) => $file->isFile());
     }
 
     public function getRoutes(): array

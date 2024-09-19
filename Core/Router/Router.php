@@ -21,7 +21,7 @@ class Router
     public function findRoute(Request $request): Route
     {
         $route = array_values(
-            array_filter($this->routes, fn (Route $route) => $route->match(
+            array_filter($this->routes, fn(Route $route) => $route->match(
                 $request->path(),
                 $request->method()
             ))
@@ -70,7 +70,7 @@ class Router
     {
         $count = array_filter(
             $this->routes,
-            fn (Route $route) => $route->uri === $attribute->path
+            fn(Route $route) => $route->uri === $attribute->path
                 && $route->method === $attribute->method
         );
 

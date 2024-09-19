@@ -16,6 +16,6 @@ class StartRouter
 
     public function handle(): void
     {
-        $this->application->singleton(fn (Container $container) => $container->build(Router::class));
+        $this->application->singleton(fn(Container $container) => $container->build(Router::class));
     }
 }

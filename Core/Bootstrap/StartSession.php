@@ -15,6 +15,6 @@ class StartSession
 
     public function handle(): void
     {
-        $this->application->singleton(fn () => new Session());
+        $this->application->singleton(fn() => new Session());
     }
 }

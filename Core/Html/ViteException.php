@@ -6,7 +6,4 @@ namespace Core\Html;
 
 use RuntimeException;
 
-class ViteException extends RuntimeException
-{
-
-}
+class ViteException extends RuntimeException {}

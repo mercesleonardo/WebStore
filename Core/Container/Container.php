@@ -63,7 +63,7 @@ class Container implements ContainerInterface
         $constructor = $reflection->getConstructor();
 
         if (is_null($constructor)) {
-            return new $concrete;
+            return new $concrete();
         }
 
         $dependencies = $constructor->getParameters();
@@ -76,6 +76,7 @@ class Container implements ContainerInterface
 
             if ($this->has($dependency)) {
                 $instances[] = $this->get($dependency);
+
                 continue;
             }
 
@@ -99,6 +100,7 @@ class Container implements ContainerInterface
 
             if ($this->has($dependency)) {
                 $dependencyStack[] = $this->get($dependency);
+
                 continue;
             }
 

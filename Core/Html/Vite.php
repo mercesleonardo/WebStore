@@ -35,7 +35,7 @@ class Vite
 
     private function hot(array $entrypoints): string
     {
-        $entrypoints = array_map(fn ($entrypoint) => $this->makeTagForChunk($this->hotAsset($entrypoint)), $entrypoints);
+        $entrypoints = array_map(fn($entrypoint) => $this->makeTagForChunk($this->hotAsset($entrypoint)), $entrypoints);
 
         return implode(PHP_EOL, $entrypoints);
     }

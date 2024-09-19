@@ -41,7 +41,7 @@ class Request
 
     public function input(string $key = null)
     {
-        if (! $key) {
+        if (!$key) {
             return $this->input;
         }
 
@@ -52,7 +52,7 @@ class Request
 
     public function get(string $key = null)
     {
-        if (! $key) {
+        if (!$key) {
             return $this->query;
         }
 

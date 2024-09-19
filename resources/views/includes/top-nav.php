@@ -13,7 +13,7 @@ use Core\Auth\Auth;
                 </a>
 
                 <a href="/contact"
-                   class="<?= route_is('/contact') ? 'bg-gray-900 text-white': 'text-gray-300' ?> py-2 px-3 leading-lg rounded-md hover:bg-gray-900 transition transition-all duration-[0.5s]">
+                   class="<?= route_is('/contact') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> py-2 px-3 leading-lg rounded-md hover:bg-gray-900 transition transition-all duration-[0.5s]">
                     Contact
                 </a>
             </div>

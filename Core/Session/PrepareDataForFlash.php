@@ -13,8 +13,7 @@ class PrepareDataForFlash
 
     public function __construct(
         protected array $data
-    ) {
-    }
+    ) {}
 
     public function handle(): array
     {

@@ -36,6 +36,7 @@ class View implements Renderable
 
         ob_start();
         extract($data);
+
         include $this->templatePath . DIRECTORY_SEPARATOR . $this->template . '.php';
 
         return ob_get_clean();

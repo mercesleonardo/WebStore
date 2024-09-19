@@ -17,8 +17,8 @@ class Session
 
     public function put(string $key, mixed $value): self
     {
-        $keys = explode('.', $key);
-        $session =& $_SESSION;
+        $keys    = explode('.', $key);
+        $session = &$_SESSION;
 
         while (count($keys) > 1) {
             $key = array_shift($keys);
@@ -27,7 +27,7 @@ class Session
                 $session[$key] = [];
             }
 
-            $session =& $session[$key];
+            $session = &$session[$key];
         }
 
         $session[array_shift($keys)] = $value;
@@ -37,7 +37,7 @@ class Session
 
     public function get(string $key, mixed $default = null): mixed
     {
-        $keys = explode('.', $key);
+        $keys    = explode('.', $key);
         $session = $_SESSION;
 
         foreach ($keys as $key) {
@@ -99,8 +99,8 @@ class Session
 
     public function forget(string $key): static
     {
-        $keys = explode('.', $key);
-        $session =& $_SESSION;
+        $keys    = explode('.', $key);
+        $session = &$_SESSION;
 
         while (count($keys) > 1) {
             $key = array_shift($keys);
@@ -109,7 +109,7 @@ class Session
                 $session[$key] = [];
             }
 
-            $session =& $session[$key];
+            $session = &$session[$key];
         }
 
         unset($session[array_shift($keys)]);

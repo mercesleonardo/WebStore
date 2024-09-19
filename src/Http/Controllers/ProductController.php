@@ -20,7 +20,7 @@ class ProductController
 
         return (new View())
             ->render('product', [
-                'title' => $product->name . ' | My WebStore',
+                'title'   => $product->name . ' | My WebStore',
                 'heading' => 'Product Details',
                 'product' => $product,
             ]);

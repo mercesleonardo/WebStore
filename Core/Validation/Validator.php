@@ -31,7 +31,7 @@ class Validator
 
     public function fails(): bool
     {
-        return ! $this->passes();
+        return !$this->passes();
     }
 
     public function validate(): true

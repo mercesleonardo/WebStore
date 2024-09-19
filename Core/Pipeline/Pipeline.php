@@ -17,8 +17,7 @@ class Pipeline
 
     public function __construct(
         protected Application $app
-    ) {
-    }
+    ) {}
 
     public function send(mixed $passable): static
     {
