@@ -8,4 +8,3 @@ return [
     'min'      => 'The :attribute field must have at least :parameter characters.',
     'email'    => 'The :attribute field must be a valid email address.',
 ];
-
