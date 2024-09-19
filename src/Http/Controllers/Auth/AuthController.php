@@ -32,26 +32,15 @@ class AuthController
     #[Route('/auth/login', HttpMethod::Post)]
     public function login(Request $request): RedirectResponse
     {
-        $validator = new Validator([
+        (new Validator([
             'email'    => ['required', 'email', 'max:100'],
             'password' => ['required', 'string'],
-        ], $request->input());
+        ], $request->input()))->validate();
 
-        if ($validator->fails()) {
-            $this->session
-                ->withInput($request->input())
-                ->withErrors($validator->getErrors());
-
-            return redirect('/auth');
-        }
-
-        if (!$this->auth->attempt($request->input('email'), $request->input('password'))) {
-            $this->session
-                ->withInput($request->input())
-                ->flash('error', 'User not found or wrong password.');
-
-            return redirect('/auth');
-        }
+        $this->auth->attempt(
+            $request->input('email'),
+            $request->input('password')
+        );
 
         return redirect('/admin/messages');
     }

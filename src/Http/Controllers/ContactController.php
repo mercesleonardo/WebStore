@@ -46,24 +46,16 @@ class ContactController
             'message' => ['required', 'max:255'],
         ], $request->input()))->validate();
 
-//        if ($validator->fails()) {
-//            return redirect()->back()->withErrors($validator->getErrors())->withInput();
-//        }
-
         $id = $db
             ->query('INSERT INTO messages (name, email, source, message) VALUES (:name, :email, :source, :message)', $request->input())
             ->insert();
 
-        $type = 'success';
-        $message = 'Sua mensagem foi enviada com sucesso!';
+        $type    = !$id ? 'danger' : 'success';
+        $message = !$id
+            ? 'An error occurred while sending your message. Please try again.'
+            : 'Your message has been sent successfully!';
 
-        if (!$id) {
-            $type = 'danger';
-            $message = 'Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.';
-        }
-
-        $this->session->flash($type, $message);
-
-        return redirect('/contact');
+        return redirect('/contact')
+            ->with($type, $message);
     }
 }
