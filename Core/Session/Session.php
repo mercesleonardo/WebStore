@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Core\Session;
 
+use Core\Http\Request;
+
 class Session
 {
     public function __construct()
@@ -118,5 +120,17 @@ class Session
     public function has(string $string): bool
     {
         return $this->get($string) !== null;
+    }
+
+    public function setPreviousUrl(Request $request): void
+    {
+        if ($request->method() === 'GET') {
+            $this->put('_previous_url', $request->fullUrl());
+        }
+    }
+
+    public function getPreviousUrl(): ?string
+    {
+        return $this->get('_previous_url');
     }
 }

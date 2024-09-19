@@ -6,6 +6,8 @@ namespace Core;
 
 use Closure;
 use Core\Container\Container;
+use Core\Http\Request;
+use Core\Session\Session;
 
 class Application extends Container
 {
@@ -39,5 +41,11 @@ class Application extends Container
     public function singleton(Closure $closure): void
     {
         $this->set($closure($this));
+    }
+
+    public function registerRequest(Request $request): void
+    {
+        $this->set($request);
+        $this->get(Session::class)->setPreviousUrl($request);
     }
 }

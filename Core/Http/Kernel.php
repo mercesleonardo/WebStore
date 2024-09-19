@@ -28,7 +28,7 @@ class Kernel
 
     public function handle(Request $request): Response
     {
-        $this->app->set($request);
+        $this->app->registerRequest($request);
 
         $route = $this->router->findRoute($request);
         $middlewares = $this->prepareMiddlewares($route->middlewares);
