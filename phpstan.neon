@@ -1,0 +1,10 @@
+includes:
+	- phpstan-baseline.neon
+
+parameters:
+    paths:
+        - src
+        - Core
+
+    # The level 9 is the highest level
+    level: 5

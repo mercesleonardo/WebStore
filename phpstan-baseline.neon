@@ -1,0 +1,46 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method ReflectionType\\:\\:getName\\(\\)\\.$#"
+			count: 2
+			path: Core/Container/Container.php
+
+		-
+			message: "#^Method Core\\\\Container\\\\Container\\:\\:build\\(\\) should return class\\-string\\<T of object\\> but returns object\\.$#"
+			count: 2
+			path: Core/Container/Container.php
+
+		-
+			message: "#^Template type T of method Core\\\\Container\\\\Container\\:\\:build\\(\\) is not referenced in a parameter\\.$#"
+			count: 1
+			path: Core/Container/Container.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: Core/Container/Container.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: Core/Http/Request.php
+
+		-
+			message: "#^Cannot access property \\$name on object\\|false\\.$#"
+			count: 1
+			path: src/Http/Controllers/ProductController.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$service contains unresolvable type\\.$#"
+			count: 1
+			path: src/helpers.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\(T is null \\? Container \\: \\|class\\-string\\<T\\>\\)\\)\\: Unexpected token \"\\|\", expected type at offset 129$#"
+			count: 1
+			path: src/helpers.php
+
+		-
+			message: "#^Template type T of function container\\(\\) is not referenced in a parameter\\.$#"
+			count: 1
+			path: src/helpers.php
