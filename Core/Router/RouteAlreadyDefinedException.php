@@ -10,6 +10,6 @@ class RouteAlreadyDefinedException extends Exception
 {
     public function __construct(Attributes\Route $route)
     {
-        parent::__construct("Route {$route->path} already defined for method {$route->method}");
+        parent::__construct("Route {$route->path} already defined for method {$route->method->value}");
     }
 }
