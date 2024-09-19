@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Core\Session;
 
 use Core\Http\Request;
+use Illuminate\Support\Arr;
 
 class Session
 {
@@ -17,38 +18,16 @@ class Session
 
     public function put(string $key, mixed $value): self
     {
-        $keys    = explode('.', $key);
         $session = &$_SESSION;
 
-        while (count($keys) > 1) {
-            $key = array_shift($keys);
-
-            if (!isset($session[$key]) || !is_array($session[$key])) {
-                $session[$key] = [];
-            }
-
-            $session = &$session[$key];
-        }
-
-        $session[array_shift($keys)] = $value;
+        Arr::set($session, $key, $value);
 
         return $this;
     }
 
     public function get(string $key, mixed $default = null): mixed
     {
-        $keys    = explode('.', $key);
-        $session = $_SESSION;
-
-        foreach ($keys as $key) {
-            if (!isset($session[$key])) {
-                return $default;
-            }
-
-            $session = $session[$key];
-        }
-
-        return $session;
+        return Arr::get($_SESSION, $key, $default);
     }
 
     public function flash(string $key, mixed $value): self
@@ -99,20 +78,9 @@ class Session
 
     public function forget(string $key): static
     {
-        $keys    = explode('.', $key);
         $session = &$_SESSION;
 
-        while (count($keys) > 1) {
-            $key = array_shift($keys);
-
-            if (!isset($session[$key]) || !is_array($session[$key])) {
-                $session[$key] = [];
-            }
-
-            $session = &$session[$key];
-        }
-
-        unset($session[array_shift($keys)]);
+        Arr::forget($session, $key);
 
         return $this;
     }
@@ -124,7 +92,7 @@ class Session
 
     public function setPreviousUrl(Request $request): void
     {
-        if ($request->method() == 'GET') {
+        if ($request->method() === 'GET') {
             $this->put('_previous.url', $request->fullUrl());
         }
     }
