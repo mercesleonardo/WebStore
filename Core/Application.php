@@ -19,6 +19,7 @@ class Application extends Container
         \Core\Bootstrap\LoadRoutes::class,
         \Core\Bootstrap\StartSession::class,
         \Core\Bootstrap\ConfigureAuth::class,
+        \Core\Bootstrap\StartRedirector::class,
     ];
 
     public function __construct()
@@ -46,6 +47,7 @@ class Application extends Container
     public function registerRequest(Request $request): void
     {
         $this->set($request);
+        $this->get('redirector')->setRequest($request);
         $this->get(Session::class)->setPreviousUrl($request);
     }
 }
