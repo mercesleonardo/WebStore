@@ -31,5 +31,9 @@
         "roave/security-advisories": "dev-latest",
         "laravel/pint": "^1.17",
         "phpstan/phpstan": "^1.12"
+    },
+    "scripts": {
+        "style": "./vendor/bin/pint",
+        "stan": "./vendor/bin/phpstan analyse"
     }
 }
