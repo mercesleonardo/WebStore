@@ -1,0 +1,22 @@
+#!/bin/sh
+
+NAME=$(git branch | grep '*' | sed 's/* //')
+echo "Running pre-push hook for branch $NAME"
+
+echo "1: Laravel Pint"
+./vendor/bin/pint --test
+
+STATUS_CODE=$?
+if [ $STATUS_CODE -ne 0 ]; then
+  echo "Laravel Pint failed"
+  exit 1
+fi
+
+echo "2: PHPStan"
+./vendor/bin/phpstan analyse
+
+STATUS_CODE=$?
+if [ $STATUS_CODE -ne 0 ]; then
+  echo "PHPStan failed"
+  exit 1
+fi
