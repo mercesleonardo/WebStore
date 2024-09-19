@@ -39,20 +39,16 @@ class ContactController
     #[Route('/contact', HttpMethod::Post)]
     public function store(Request $request, Connector $db): RedirectResponse
     {
-        $validator = new Validator([
+        (new Validator([
             'name'    => ['required', 'min:3', 'max:100'],
             'email'   => ['required', 'email', 'max:100'],
             'source'  => ['required'],
             'message' => ['required', 'max:255'],
-        ], $request->input());
+        ], $request->input()))->validate();
 
-        if ($validator->fails()) {
-            $this->session
-                ->withErrors($validator->getErrors())
-                ->withInput($request->input());
-
-            return redirect('/contact');
-        }
+//        if ($validator->fails()) {
+//            return redirect()->back()->withErrors($validator->getErrors())->withInput();
+//        }
 
         $id = $db
             ->query('INSERT INTO messages (name, email, source, message) VALUES (:name, :email, :source, :message)', $request->input())

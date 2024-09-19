@@ -34,6 +34,15 @@ class Validator
         return ! $this->passes();
     }
 
+    public function validate(): true
+    {
+        if ($this->fails()) {
+            throw new ValidationException($this);
+        }
+
+        return true;
+    }
+
     public function getErrors(): array
     {
         return $this->errors;

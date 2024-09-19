@@ -10,6 +10,7 @@ use Core\Auth\Middlewares\IsAdmin;
 use Core\Auth\Middlewares\StartAndAttachUser;
 use Core\Pipeline\Pipeline;
 use Core\Router\Router;
+use Core\Validation\ValidationException;
 use Exception;
 
 class Kernel
@@ -33,20 +34,24 @@ class Kernel
         $route = $this->router->findRoute($request);
         $middlewares = $this->prepareMiddlewares($route->middlewares);
 
-        $response = (new Pipeline($this->app))
-            ->send($request)
-            ->through($middlewares)
-            ->then(fn () => $route->run());
+        try {
+            $response = (new Pipeline($this->app))
+                ->send($request)
+                ->through($middlewares)
+                ->then(fn () => $route->run());
 
-        if ($response instanceof Response) {
-            return $response;
+            if ($response instanceof Response) {
+                return $response;
+            }
+
+            if (is_array($response)) {
+                return new JsonResponse($response);
+            }
+
+            return new Response($response ?? '');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withInput()->withErrors($e->getErrors());
         }
-
-        if (is_array($response)) {
-            return new JsonResponse($response);
-        }
-
-        return new Response($response ?? '');
     }
 
     private function prepareMiddlewares(array $middlewares): array
