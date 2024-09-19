@@ -27,7 +27,7 @@ class HeaderBag
         return $this->headers;
     }
 
-    public function fixHeaderName(string $name): string
+    public function fixHeaderName(string $name)
     {
         return strtolower(str_replace(['HTTP_', '_'], ['', '-'], $name));
     }
