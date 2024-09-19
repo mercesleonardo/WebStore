@@ -13,8 +13,14 @@ if (!function_exists('response')) {
 }
 
 if (!function_exists('redirect')) {
-    function redirect(string $url, int $statusCode = 302, array $headers = []): RedirectResponse
+    function redirect(string $url = null, int $statusCode = 302, array $headers = []): RedirectResponse
     {
-        return new RedirectResponse($url, $statusCode, $headers);
+        $redirector = container('redirector');
+
+        if ( is_null($url)) {
+            return $redirector;
+        }
+
+        return $redirector->to($url, $statusCode, $headers);
     }
 }
