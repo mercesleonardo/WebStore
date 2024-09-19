@@ -3,8 +3,9 @@
 declare(strict_types = 1);
 
 return [
-    'required' => 'O campo :attribute é obrigatório.',
-    'max'      => 'O campo :attribute deve ter no máximo :parameter caracteres.',
-    'min'      => 'O campo :attribute deve ter no mínimo :parameter caracteres.',
-    'email'    => 'O campo :attribute deve ser um e-mail válido.',
+    'required' => 'The :attribute field is required.',
+    'max'      => 'The :attribute field must have a maximum of :parameter characters.',
+    'min'      => 'The :attribute field must have at least :parameter characters.',
+    'email'    => 'The :attribute field must be a valid email address.',
 ];
+
