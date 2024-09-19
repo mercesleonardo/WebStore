@@ -40,10 +40,9 @@ class Response
 
     public function __construct(mixed $content = '', int $statusCode = 200, array $headers = [])
     {
-        $this->headers = $headers;
-
         $this->setContent($content);
         $this->setStatusCode($statusCode);
+        $this->setHeaders($headers);
     }
 
     public function setContent(mixed $content): static
@@ -110,5 +109,12 @@ class Response
     public function redirect(string $url, int $statusCode = 302, array $headers = []): RedirectResponse
     {
         return new RedirectResponse($url, $statusCode, $headers);
+    }
+
+    public function setHeaders(array $headers): static
+    {
+        $this->headers = $headers;
+
+        return $this;
     }
 }
