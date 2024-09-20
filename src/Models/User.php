@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Models;
 
 use Core\Database\Pinguim\Model;
@@ -18,7 +20,6 @@ use Core\Database\Query\Builder;
  * @method static User first()
  * @method static Builder query()
  */
-
 class User extends Model
 {
     protected array $fillable = [
