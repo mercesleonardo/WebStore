@@ -7,8 +7,9 @@ namespace Core\Bootstrap;
 use Core\Application;
 use Core\Container\Container;
 use Core\Database\Connector;
+use Core\Database\Model;
 
-class StartDatabase
+readonly class StartDatabase
 {
     public function __construct(
         private Application $application
@@ -17,7 +18,11 @@ class StartDatabase
     public function handle(): void
     {
         $this->application->singleton(function (Container $container) {
-            return $container->build(Connector::class);
+            $connection = $container->build(Connector::class);
+
+            Model::resolveConnection($connection);
+
+            return $connection;
         });
     }
 }
