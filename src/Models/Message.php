@@ -19,7 +19,7 @@ use Core\Database\Pinguim\Model;
  */
 class Message extends Model
 {
-//    public bool $timestamps = false;
+    //    public bool $timestamps = false;
 
     protected array $fillable = [
         'name',
