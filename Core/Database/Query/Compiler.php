@@ -38,7 +38,7 @@ class Compiler
     private function compileWheres(Builder $query): string
     {
         $wheres = $this->compileWheresToArray($query);
-        $query = implode(' ', $wheres);
+        $query  = implode(' ', $wheres);
 
         return $this->removeLeadingBoolean($query);
     }
