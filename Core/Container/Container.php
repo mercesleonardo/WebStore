@@ -46,7 +46,7 @@ class Container implements ContainerInterface
     /**
      * @template T of object
      * @param string|class-string<T> $concrete
-     * @return class-string<T>
+     * @return T
      */
     public function build($concrete)
     {
