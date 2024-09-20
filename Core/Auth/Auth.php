@@ -4,12 +4,14 @@ declare(strict_types = 1);
 
 namespace Core\Auth;
 
+use App\Models\User;
 use Core\Database\Connector;
 use Core\Session\Session;
+use stdClass;
 
 class Auth
 {
-    private ?object $user = null;
+    private ?User $user = null;
 
     public function __construct(
         protected Connector $db,
@@ -32,11 +34,12 @@ class Auth
     public function logout(): void
     {
         $this->session->forget('user.id');
+        $this->user = null;
 
         session_regenerate_id(true);
     }
 
-    public function user(): object | false | null
+    public function user(): ?User
     {
         return $this->user;
     }
@@ -47,18 +50,14 @@ class Auth
             return;
         }
 
-        $this->user = $this
-            ->db
-            ->query('SELECT * FROM users WHERE id = :id', ['id' => $this->session->get('user.id')])
-            ->first();
+        $this->user = User::find(
+            $this->session->get('user.id')
+        );
     }
 
-    protected function getUserByEmail(string $email): object | false
+    protected function getUserByEmail(string $email): User | stdClass | null
     {
-        return $this
-            ->db
-            ->query('SELECT * FROM users WHERE email = :email', ['email' => $email])
-            ->first();
+        return User::query()->where('email', $email)->first();
     }
 
     public function check(): bool

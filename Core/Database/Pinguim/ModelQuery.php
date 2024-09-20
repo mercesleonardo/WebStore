@@ -29,13 +29,12 @@ class ModelQuery
 
     public function find(int | string $id): ?Model
     {
-        $model = $this
+        return $this
             ->query()
             ->where($this->model->getPrimaryKeyColumn(), $id)
             ->limit(1)
             ->first();
 
-        return $model ? $this->model->hydrate($model, true) : null;
     }
 
     public function create(array $attributes): Model
