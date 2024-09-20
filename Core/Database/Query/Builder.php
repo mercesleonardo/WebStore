@@ -6,6 +6,7 @@ namespace Core\Database\Query;
 
 use BackedEnum;
 use Core\Database\Connector;
+use Core\Database\Model;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
@@ -105,7 +106,7 @@ class Builder
         return $this->where($column, $operator, $value, 'or');
     }
 
-    public function get()
+    public function get(): array
     {
         return $this
             ->connector
@@ -113,11 +114,21 @@ class Builder
             ->get();
     }
 
+    public function first(): array | false
+    {
+        return $this
+            ->connector
+            ->query($this->compiler->compileSelect($this), $this->getBindings())
+            ->first();
+    }
+
     private function prepareValueAndOperator(mixed $value, mixed $operator, bool $useDefault = false): array
     {
         if ($useDefault) {
-            return [$value, '='];
-        } elseif ($this->invalidOperatorAndValue($operator, $value)) {
+            return [$operator, '='];
+        }
+
+        if ($this->invalidOperatorAndValue($operator, $value)) {
             throw new InvalidArgumentException('Illegal operator and value combination.');
         }
 
@@ -127,23 +138,29 @@ class Builder
     private function invalidOperatorAndValue(mixed $operator, mixed $value): bool
     {
         return is_null($value)
-            && in_array($operator, $this->operators)
+            && in_array($operator, $this->operators, true)
             && !in_array($operator, ['=', '<>', '!=']);
     }
 
-    private function addBinding($value, $type = 'where'): self
+    private function addBinding($value): void
     {
-        if (!array_key_exists($type, $this->bindings)) {
+        if (!array_key_exists('where', $this->bindings)) {
             throw new InvalidArgumentException('Invalid binding type.');
         }
 
-        $this->bindings[$type][] = $value instanceof BackedEnum ? $value->value : $value;
+        $this->bindings['where'][] = $value instanceof BackedEnum ? $value->value : $value;
 
-        return $this;
     }
 
     public function getBindings(): array
     {
         return Arr::flatten($this->bindings);
+    }
+
+    public function setTableFromModel(Model $model): static
+    {
+        $this->from($model->getTable());
+
+        return $this;
     }
 }
