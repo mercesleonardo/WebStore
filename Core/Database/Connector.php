@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Core\Database;
 
+use DateTime;
 use PDO;
 use PDOStatement;
 
@@ -40,11 +41,13 @@ class Connector
         return $this->executeQuery()->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function insert(): false | string
+    public function insert(): int | string
     {
         $this->executeQuery();
 
-        return $this->connection->lastInsertId();
+        $lastInsertId = $this->connection->lastInsertId();
+
+        return is_numeric($lastInsertId) ? (int) $lastInsertId : $lastInsertId;
     }
 
     private function executeQuery(): PDOStatement
@@ -65,8 +68,18 @@ class Connector
         }
 
         foreach ($this->params as $key => $value) {
-            $key       = is_int($key) ? $key + 1 : $key;
-            $pdoParams = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+            $key = is_int($key) ? $key + 1 : $key;
+
+            $pdoParams = match (true) {
+                is_int($value)  => PDO::PARAM_INT,
+                is_bool($value) => PDO::PARAM_BOOL,
+                is_null($value) => PDO::PARAM_NULL,
+                default         => PDO::PARAM_STR,
+            };
+
+            if ($value instanceof DateTime) {
+                $value = $value->format('Y-m-d H:i:s');
+            }
 
             $statement->bindValue($key, $value, $pdoParams);
         }

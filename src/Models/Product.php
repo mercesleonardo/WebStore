@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Models;
 
-use Core\Database\Model;
+use Core\Database\Pinguim\Model;
 
 /**
  * @property int $id
@@ -15,5 +15,8 @@ use Core\Database\Model;
  * @property int $price
  * @property string|null $created_at
  * @property string|null $updated_at
+ *
+ * @method static Product find(int | string $id)
+ * @method static Product[] all()
  */
 class Product extends Model {}

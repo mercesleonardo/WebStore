@@ -54,4 +54,14 @@ class Compiler
     {
         return preg_replace('/and |or /i', '', $query, 1);
     }
+
+    public function compileInsert(Builder $query): string
+    {
+        $columns  = implode(', ', $query->columns);
+        $bindings = implode(', ', array_fill(0, count($query->columns), '?'));
+
+        return <<<SQL
+            INSERT INTO {$query->table} ({$columns}) VALUES ({$bindings})
+        SQL;
+    }
 }

@@ -6,8 +6,9 @@ namespace Core\Database\Query;
 
 use BackedEnum;
 use Core\Database\Connector;
-use Core\Database\Model;
+use Core\Database\Pinguim\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 class Builder
@@ -15,6 +16,8 @@ class Builder
     public array $select = [];
 
     public ?string $from = null;
+
+    public ?string $table = null;
 
     public array $wheres = [];
 
@@ -26,6 +29,8 @@ class Builder
 
     public ?int $offset = null;
 
+    public array $columns = [];
+
     public array $operators = [
         '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
         'like', 'like binary', 'not like', 'ilike',
@@ -36,8 +41,11 @@ class Builder
     ];
 
     protected array $bindings = [
-        'where' => [],
+        'where'  => [],
+        'insert' => [],
     ];
+
+    protected ?string $model = null;
 
     public function __construct(
         protected Connector $connector,
@@ -54,6 +62,13 @@ class Builder
     public function from($table, string $alias = null): self
     {
         $this->from = $table . ($alias ? " as $alias" : '');
+
+        return $this;
+    }
+
+    public function table(string $table): static
+    {
+        $this->table = $table;
 
         return $this;
     }
@@ -92,7 +107,7 @@ class Builder
 
     public function where($column, $operator = null, $value = null, $boolean = 'and'): self
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() == 2);
 
         $this->wheres[] = compact('column', 'operator', 'value', 'boolean');
 
@@ -106,29 +121,43 @@ class Builder
         return $this->where($column, $operator, $value, 'or');
     }
 
-    public function get(): array
+    public function get(): Collection
     {
-        return $this
+        $data = $this
             ->connector
             ->query($this->compiler->compileSelect($this), $this->getBindings())
             ->get();
+
+        $data = collect($data);
+
+        if ($this->model) {
+            return $data
+                ->mapInto($this->model)
+                ->each(fn(Model $model) => $model->setExists());
+        }
+
+        return $data->map(fn($item) => (object) $item);
     }
 
-    public function first(): array | false
+    public function first()
     {
-        return $this
+        $data = $this
             ->connector
             ->query($this->compiler->compileSelect($this), $this->getBindings())
             ->first();
+
+        if (!$data) {
+            return null;
+        }
+
+        return $this->model ? $data : (object) $data;
     }
 
     private function prepareValueAndOperator(mixed $value, mixed $operator, bool $useDefault = false): array
     {
         if ($useDefault) {
             return [$operator, '='];
-        }
-
-        if ($this->invalidOperatorAndValue($operator, $value)) {
+        } elseif ($this->invalidOperatorAndValue($operator, $value)) {
             throw new InvalidArgumentException('Illegal operator and value combination.');
         }
 
@@ -138,18 +167,19 @@ class Builder
     private function invalidOperatorAndValue(mixed $operator, mixed $value): bool
     {
         return is_null($value)
-            && in_array($operator, $this->operators, true)
+            && in_array($operator, $this->operators)
             && !in_array($operator, ['=', '<>', '!=']);
     }
 
-    private function addBinding($value): void
+    private function addBinding($value, $type = 'where'): self
     {
-        if (!array_key_exists('where', $this->bindings)) {
+        if (!array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException('Invalid binding type.');
         }
 
-        $this->bindings['where'][] = $value instanceof BackedEnum ? $value->value : $value;
+        $this->bindings[$type][] = $value instanceof BackedEnum ? $value->value : $value;
 
+        return $this;
     }
 
     public function getBindings(): array
@@ -157,10 +187,26 @@ class Builder
         return Arr::flatten($this->bindings);
     }
 
-    public function setTableFromModel(Model $model): static
+    public function setModelProperties(Model $model): static
     {
-        $this->from($model->getTable());
+        $tableName = $model->getTable();
+
+        $this->from($tableName);
+        $this->table($tableName);
+
+        $this->model = $model::class;
 
         return $this;
+    }
+
+    public function insert(array $attributes): int | string
+    {
+        $this->addBinding(array_values($attributes), 'insert');
+        $this->columns = array_keys($attributes);
+
+        return $this
+            ->connector
+            ->query($this->compiler->compileInsert($this), $this->getBindings())
+            ->insert();
     }
 }

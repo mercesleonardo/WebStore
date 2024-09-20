@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
-use Core\Database\Connector;
+use App\Models\Message;
 use Core\Html\View;
 use Core\Http\Enums\HttpMethod;
 use Core\Http\RedirectResponse;
@@ -12,6 +12,7 @@ use Core\Http\Request;
 use Core\Router\Attributes\Route;
 use Core\Session\Session;
 use Core\Validation\Validator;
+use Exception;
 
 class ContactController
 {
@@ -37,7 +38,7 @@ class ContactController
     }
 
     #[Route('/contact', HttpMethod::Post)]
-    public function store(Request $request, Connector $db): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         (new Validator([
             'name'    => ['required', 'min:3', 'max:100'],
@@ -46,16 +47,16 @@ class ContactController
             'message' => ['required', 'max:255'],
         ], $request->input()))->validate();
 
-        $id = $db
-            ->query('INSERT INTO messages (name, email, source, message) VALUES (:name, :email, :source, :message)', $request->input())
-            ->insert();
+        try {
+            Message::create($request->input());
 
-        $type    = !$id ? 'danger' : 'success';
-        $message = !$id
-            ? 'An error occurred while sending your message. Please try again.'
-            : 'Your message has been sent successfully!';
-
-        return redirect('/contact')
-            ->with($type, $message);
+            return redirect('/contact')
+                ->with('success', 'Your message has been sent successfully!');
+        } catch (Exception) {
+            return redirect('/contact')
+                ->back()
+                ->withInput()
+                ->with('danger', 'An error occurred while sending the message. Please try again!');
+        }
     }
 }

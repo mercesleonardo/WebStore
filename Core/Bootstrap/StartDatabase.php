@@ -7,7 +7,7 @@ namespace Core\Bootstrap;
 use Core\Application;
 use Core\Container\Container;
 use Core\Database\Connector;
-use Core\Database\Model;
+use Core\Database\Pinguim\Model;
 
 readonly class StartDatabase
 {
