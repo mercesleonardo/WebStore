@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
-use Core\Database\Connector;
+use App\Models\Product;
 use Core\Html\View;
 use Core\Http\Request;
 use Core\Router\Attributes\Route;
@@ -12,11 +12,9 @@ use Core\Router\Attributes\Route;
 class ProductController
 {
     #[Route('/product')]
-    public function __invoke(Request $request, Connector $db): string
+    public function __invoke(Request $request): string
     {
-        $product = $db
-            ->query('SELECT * FROM products where id = :id', ['id' => $request->get('id')])
-            ->first();
+        $product = Product::find($request->get('id'));
 
         return (new View())
             ->render('product', [
