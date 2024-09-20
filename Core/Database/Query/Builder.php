@@ -10,6 +10,7 @@ use Core\Database\Pinguim\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use stdClass;
 
 class Builder
 {
@@ -139,7 +140,7 @@ class Builder
         return $data->map(fn($item) => (object) $item);
     }
 
-    public function first()
+    public function first(): Model | stdClass | null
     {
         $data = $this
             ->connector
@@ -150,7 +151,14 @@ class Builder
             return null;
         }
 
-        return $this->model ? $data : (object) $data;
+        if ($this->model) {
+            $model = new $this->model($data);
+            $model->setExists();
+
+            return $model;
+        }
+
+        return (object) $data;
     }
 
     private function prepareValueAndOperator(mixed $value, mixed $operator, bool $useDefault = false): array
