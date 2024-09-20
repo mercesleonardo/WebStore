@@ -32,12 +32,12 @@ class Connector
 
     public function get(): array
     {
-        return $this->executeQuery()->fetchAll(PDO::FETCH_OBJ);
+        return $this->executeQuery()->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function first(): object | false
+    public function first(): array | false
     {
-        return $this->executeQuery()->fetch(PDO::FETCH_OBJ);
+        return $this->executeQuery()->fetch(PDO::FETCH_ASSOC);
     }
 
     public function insert(): false | string
@@ -70,5 +70,10 @@ class Connector
 
             $statement->bindValue($key, $value, $pdoParams);
         }
+    }
+
+    public function queryBuilder(): Query\Builder
+    {
+        return new Query\Builder($this, new Query\Compiler());
     }
 }
