@@ -4,17 +4,15 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Admin;
 
-use Core\Database\Connector;
+use App\Models\Message;
 use Core\Router\Attributes\Route;
 
 class MessagesController
 {
     #[Route('/admin/messages', middlewares: ['auth', 'admin'])]
-    public function __invoke(Connector $db): string
+    public function __invoke(): string
     {
-        $messages = $db
-            ->query('SELECT * FROM messages')
-            ->get();
+        $messages = Message::all();
 
         $title   = 'My Messages';
         $heading = $title;
