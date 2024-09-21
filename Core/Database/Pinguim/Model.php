@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Core\Database\Connector;
 use Core\Database\Exceptions\MassAssignmentException;
 use Core\Database\Query;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 abstract class Model
@@ -22,6 +23,8 @@ abstract class Model
     protected ?string $table = null;
 
     protected array $attributes = [];
+
+    protected array $original = [];
 
     protected bool $exits = false;
 
@@ -64,6 +67,8 @@ abstract class Model
     {
         $this->attributes = $attributes;
         $this->exits      = $exists;
+
+        $this->syncOriginal();
 
         return $this;
     }
@@ -135,5 +140,95 @@ abstract class Model
     public static function __callStatic(string $name, array $arguments)
     {
         return (new static())->modelQuery()->$name(...$arguments);
+    }
+
+    public function syncOriginal(): static
+    {
+        $this->original = $this->attributes;
+
+        return $this;
+    }
+
+    public function save(): bool
+    {
+        $response = !$this->exits
+            ? $this->performInsert()
+            : $this->performUpdate();
+
+        if ($response) {
+            $this->syncOriginal();
+        }
+
+        return $response;
+    }
+
+    public function update(array $attributes): bool
+    {
+        return $this->fill($attributes)->save();
+    }
+
+    private function performInsert(): bool
+    {
+        $this->touchTimestamps();
+
+        $id = $this
+            ->newQuery()
+            ->setModelProperties($this)
+            ->insert($this->attributes);
+
+        $this
+            ->setNewId($id)
+            ->setExists();
+
+        return true;
+    }
+
+    private function performUpdate()
+    {
+        if (!$this->exits) {
+            return false;
+        }
+
+        $dirty = $this->getDirty();
+
+        if (count($dirty) === 0) {
+            return true;
+        }
+
+        $this->touchUpdatedAt();
+
+        return $this
+            ->newQuery()
+            ->setModelProperties($this)
+            ->where($this->getPrimaryKeyColumn(), $this->attributes[$this->getPrimaryKeyColumn()])
+            ->update($dirty);
+    }
+
+    public function getDirty(): array
+    {
+        $dirty = [];
+
+        foreach ($this->attributes as $key => $value) {
+            if ($key === $this->getPrimaryKeyColumn()) {
+                continue;
+            }
+
+            if (!array_key_exists($key, $this->original) || $value !== $this->original[$key]) {
+                $dirty[$key] = $value;
+            }
+        }
+
+        return $dirty;
+    }
+
+    public function newCollection(array $models): Collection
+    {
+        return collect($models)
+            ->map(fn($model) => (new static())->hydrate($model, true));
+    }
+
+    public function newInstance(array $data, bool $exists = false): static
+    {
+        return (new static())->hydrate($data, $exists);
     }
 }

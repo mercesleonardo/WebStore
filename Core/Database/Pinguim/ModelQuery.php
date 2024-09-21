@@ -34,20 +34,12 @@ class ModelQuery
             ->where($this->model->getPrimaryKeyColumn(), $id)
             ->limit(1)
             ->first();
-
     }
 
     public function create(array $attributes): Model
     {
-        $this
-            ->model
-            ->fill($attributes)
-            ->touchTimestamps();
+        $this->model->fill($attributes)->save();
 
-        $id = $this
-            ->query()
-            ->insert($attributes);
-
-        return $this->model->setNewId($id)->setExists();
+        return $this->model;
     }
 }

@@ -50,6 +50,16 @@ class Connector
         return is_numeric($lastInsertId) ? (int) $lastInsertId : $lastInsertId;
     }
 
+    public function update(): bool
+    {
+        return $this->affectingStatement();
+    }
+
+    public function affectingStatement(): bool
+    {
+        return $this->executeQuery()->rowCount() > 0;
+    }
+
     private function executeQuery(): PDOStatement
     {
         $statement = $this->connection->prepare($this->query);

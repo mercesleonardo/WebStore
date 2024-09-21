@@ -42,11 +42,12 @@ class Builder
     ];
 
     protected array $bindings = [
+        'update' => [],
         'where'  => [],
         'insert' => [],
     ];
 
-    protected ?string $model = null;
+    protected ?Model $model = null;
 
     public function __construct(
         protected Connector $connector,
@@ -129,15 +130,11 @@ class Builder
             ->query($this->compiler->compileSelect($this), $this->getBindings())
             ->get();
 
-        $data = collect($data);
-
         if ($this->model) {
-            return $data
-                ->mapInto($this->model)
-                ->each(fn(Model $model) => $model->setExists());
+            return $this->model->newCollection($data);
         }
 
-        return $data->map(fn($item) => (object) $item);
+        return collect($data)->map(fn($item) => (object) $item);
     }
 
     public function first(): Model | stdClass | null
@@ -152,10 +149,7 @@ class Builder
         }
 
         if ($this->model) {
-            $model = new $this->model($data);
-            $model->setExists();
-
-            return $model;
+            return $this->model->newInstance($data, true);
         }
 
         return (object) $data;
@@ -202,7 +196,7 @@ class Builder
         $this->from($tableName);
         $this->table($tableName);
 
-        $this->model = $model::class;
+        $this->model = $model;
 
         return $this;
     }
@@ -216,5 +210,16 @@ class Builder
             ->connector
             ->query($this->compiler->compileInsert($this), $this->getBindings())
             ->insert();
+    }
+
+    public function update(array $attributes): bool
+    {
+        $this->addBinding(array_values($attributes), 'update');
+        $this->columns = array_keys($attributes);
+
+        return $this
+            ->connector
+            ->query($this->compiler->compileUpdate($this), $this->getBindings())
+            ->update();
     }
 }

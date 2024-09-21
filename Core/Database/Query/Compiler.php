@@ -6,7 +6,7 @@ namespace Core\Database\Query;
 
 class Compiler
 {
-    public function compileSelect(Builder $query)
+    public function compileSelect(Builder $query): string
     {
         $select = $query->select ?: ['*'];
 
@@ -63,5 +63,20 @@ class Compiler
         return <<<SQL
             INSERT INTO {$query->table} ({$columns}) VALUES ({$bindings})
         SQL;
+    }
+
+    public function compileUpdate(Builder $query): string
+    {
+        $sql = 'UPDATE ' . $query->table;
+
+        $sql .= ' SET ' . collect($query->columns)
+            ->map(fn($column): string => "$column = ?")
+            ->implode(', ');
+
+        if (!empty($query->wheres)) {
+            $sql .= ' WHERE ' . $this->compileWheres($query);
+        }
+
+        return trim($sql);
     }
 }
