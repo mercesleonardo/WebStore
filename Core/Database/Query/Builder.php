@@ -222,4 +222,12 @@ class Builder
             ->query($this->compiler->compileUpdate($this), $this->getBindings())
             ->update();
     }
+
+    public function delete(): bool
+    {
+        return $this
+            ->connector
+            ->query($this->compiler->compileDelete($this), $this->getBindings())
+            ->delete();
+    }
 }
