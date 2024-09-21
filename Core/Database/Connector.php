@@ -55,6 +55,11 @@ class Connector
         return $this->affectingStatement();
     }
 
+    public function delete(): bool
+    {
+        return $this->affectingStatement();
+    }
+
     public function affectingStatement(): bool
     {
         return $this->executeQuery()->rowCount() > 0;
