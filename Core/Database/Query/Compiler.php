@@ -79,4 +79,15 @@ class Compiler
 
         return trim($sql);
     }
+
+    public function compileDelete(Builder $query): string
+    {
+        $sql = 'DELETE FROM ' . $query->table;
+
+        if (!empty($query->wheres)) {
+            $sql.= ' WHERE ' . $this->compileWheres($query);
+        }
+
+        return trim($sql);
+    }
 }
