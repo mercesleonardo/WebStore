@@ -11,7 +11,6 @@ use Core\Http\Enums\HttpMethod;
 use Core\Http\RedirectResponse;
 use Core\Http\Request;
 use Core\Router\Attributes\Route;
-use Core\Session\Session;
 use Core\Validation\Validator;
 use Exception;
 
