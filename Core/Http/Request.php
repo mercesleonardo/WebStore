@@ -50,13 +50,13 @@ class Request
             null;
     }
 
-    public function get(string $key = null)
+    public function get(string $key = null, $default = null)
     {
         if (!$key) {
             return $this->query;
         }
 
-        return $this->query[$key] ?? null;
+        return $this->query[$key] ?? $default;
     }
 
     public function all(): array
