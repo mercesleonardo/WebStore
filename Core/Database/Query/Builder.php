@@ -236,14 +236,14 @@ class Builder
     {
         $this->columns = $columns;
 
-        $page  = $page ?: 1;
+        $page  = $page ?: Pagination::resolveCurrentPage($pageName);
         $total = $this->count();
 
         $results = $total
             ? $this->forPage($page, $perPage)->get()
             : collect();
 
-        return new Pagination($results, $total, $perPage, $page);
+        return new Pagination($results, $total, $perPage, $page, Pagination::resolveCurrentPath());
     }
 
     public function forPage(int $page, int $perPage = 15): Builder
