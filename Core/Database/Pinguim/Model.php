@@ -183,7 +183,7 @@ abstract class Model
         return true;
     }
 
-    private function performUpdate()
+    private function performUpdate(): bool
     {
         if (!$this->exits) {
             return false;
@@ -230,5 +230,24 @@ abstract class Model
     public function newInstance(array $data, bool $exists = false): static
     {
         return (new static())->hydrate($data, $exists);
+    }
+
+    public function destroy(): bool
+    {
+        if (!$this->exits) {
+            return false;
+        }
+
+        $response = $this
+            ->newQuery()
+            ->setModelProperties($this)
+            ->where($this->getPrimaryKeyColumn(), $this->attributes[$this->getPrimaryKeyColumn()])
+            ->delete();
+
+        if ($response) {
+            $this->exits = false;
+        }
+
+        return $response;
     }
 }
