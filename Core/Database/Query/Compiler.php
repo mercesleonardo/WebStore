@@ -90,4 +90,17 @@ class Compiler
 
         return trim($sql);
     }
+
+    public function compileCount(Builder $query): string
+    {
+        $columns = $query->select ?: ['*'];
+
+        $sql = 'SELECT COUNT(' . implode(', ', $columns) . ') as aggregate FROM ' . $query->from;
+
+        if (!empty($query->wheres)) {
+            $sql .= ' WHERE ' . $this->compileWheres($query);
+        }
+
+        return trim($sql);
+    }
 }
