@@ -230,4 +230,15 @@ class Builder
             ->query($this->compiler->compileDelete($this), $this->getBindings())
             ->delete();
     }
+
+    public function count($columns = ['*']): int
+    {
+        $response = $this
+            ->select($columns)
+            ->connector
+            ->query($this->compiler->compileCount($this), $this->getBindings())
+            ->first();
+
+        return (int) data_get($response, 'aggregate', 0);
+    }
 }
