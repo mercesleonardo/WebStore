@@ -12,10 +12,18 @@ const MainColors = {
     info: 'text-blue-400',
 };
 
+let timeoutId = null;
 const toastContainer = document.getElementById('notifications')
 
+const closeToast = function (toastId) {
+    const toast = document.getElementById(toastId)
+    toast.remove();
+
+    clearTimeout(timeoutId);
+}
+
 const toast = function (type, message) {
-    const toastId = Math.floor(Math.random() * 1000);
+    const toastId = Math.floor(Math.random() * 100000);
     const toast = document.createElement('div');
 
     toast.innerHTML = `
@@ -34,7 +42,7 @@ const toast = function (type, message) {
                     <button
                         type="button"
                         class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        onclick=""
+                        onclick="window.closeToast(${toastId})"
                     >
                         <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -49,6 +57,13 @@ const toast = function (type, message) {
     toastContainer.appendChild(toast)
 
     toast.classList.remove('hidden')
+
+    timeoutId = setTimeout(() => {
+        closeToast(toastId)
+    }, 5000)
 }
+
+window.closeToast = closeToast
+window.toast = toast;
 
 export default toast
