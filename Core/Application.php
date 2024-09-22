@@ -6,6 +6,7 @@ namespace Core;
 
 use Closure;
 use Core\Container\Container;
+use Core\Database\Pagination;
 use Core\Http\Request;
 use Core\Session\Session;
 
@@ -46,5 +47,9 @@ class Application extends Container
         $this->set($request);
         $this->get('redirector')->setRequest($request);
         $this->get(Session::class)->setPreviousUrl($request);
+
+        Pagination::currentPageResolver(fn() => $request->get('page', 1));
+        Pagination::queryStringResolver(fn() => $request->get());
+        Pagination::currentPageResolver(fn() => $request->path());
     }
 }
