@@ -6,6 +6,7 @@ namespace Core\Database\Query;
 
 use BackedEnum;
 use Core\Database\Connector;
+use Core\Database\Pagination;
 use Core\Database\Pinguim\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -229,6 +230,27 @@ class Builder
             ->connector
             ->query($this->compiler->compileDelete($this), $this->getBindings())
             ->delete();
+    }
+
+    public function paginate(int $perPage = 10, array $columns = ['*'], string $pageName = 'page', $page = null): Pagination
+    {
+        $this->columns = $columns;
+
+        $page  = $page ?: 1;
+        $total = $this->count();
+
+        $results = $total
+            ? $this->forPage($page, $perPage)->get()
+            : collect();
+
+        return new Pagination($results, $total, $perPage, $page);
+    }
+
+    public function forPage(int $page, int $perPage = 15): Builder
+    {
+        return $this
+            ->offset(($page - 1) * $perPage)
+            ->limit($perPage);
     }
 
     public function count($columns = ['*']): int
