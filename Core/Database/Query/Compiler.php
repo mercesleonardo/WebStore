@@ -85,7 +85,7 @@ class Compiler
         $sql = 'DELETE FROM ' . $query->table;
 
         if (!empty($query->wheres)) {
-            $sql.= ' WHERE ' . $this->compileWheres($query);
+            $sql .= ' WHERE ' . $this->compileWheres($query);
         }
 
         return trim($sql);
