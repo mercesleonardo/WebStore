@@ -232,7 +232,7 @@ class Builder
             ->delete();
     }
 
-    public function paginate(int $perPage = 10, array $columns = ['*'], string $pageName = 'page', $page = null): Pagination
+    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', $page = null): Pagination
     {
         $this->columns = $columns;
 

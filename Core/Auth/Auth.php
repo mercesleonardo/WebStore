@@ -57,7 +57,9 @@ class Auth
 
     protected function getUserByEmail(string $email): User | stdClass | null
     {
-        return User::query()->where('email', $email)->first();
+        return User::query()
+            ->where('email', $email)
+            ->first();
     }
 
     public function check(): bool

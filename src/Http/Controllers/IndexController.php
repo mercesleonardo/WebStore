@@ -13,7 +13,7 @@ class IndexController
     #[Route('/')]
     public function __invoke(): string
     {
-        $products = Product::all();
+        $products = Product::query()->paginate(8);
 
         return (new View())
             ->render('index', [

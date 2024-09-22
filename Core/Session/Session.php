@@ -92,7 +92,7 @@ class Session
 
     public function setPreviousUrl(Request $request): void
     {
-        if ($request->method() === 'GET') {
+        if ($request->method() == 'GET') {
             $this->put('_previous.url', $request->fullUrl());
         }
     }

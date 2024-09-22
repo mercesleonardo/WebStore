@@ -9,7 +9,7 @@ use Core\Container\Container;
 use Core\Database\Connector;
 use Core\Database\Pinguim\Model;
 
-readonly class StartDatabase
+class StartDatabase
 {
     public function __construct(
         private Application $application

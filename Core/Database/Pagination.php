@@ -4,11 +4,18 @@ declare(strict_types = 1);
 
 namespace Core\Database;
 
+use ArrayAccess;
 use Closure;
+use Core\Html\View;
+use Countable;
 use Illuminate\Support\Collection;
+use IteratorAggregate;
+use Traversable;
 
-class Pagination
+class Pagination implements ArrayAccess, Countable, IteratorAggregate
 {
+    use Concerns\HandlePaginationLinks;
+
     protected static Closure $currentPageResolver;
 
     protected static Closure $queryStringResolver;
@@ -20,6 +27,8 @@ class Pagination
     protected int $onEachSide = 3;
 
     protected int $lastPage;
+
+    protected array $query = [];
 
     public function __construct(
         protected Collection $items,
@@ -91,7 +100,13 @@ class Pagination
         return $this->total;
     }
 
-    public function links() {}
+    public function links(): string
+    {
+        return (new View('pagination'))->render('pagination', [
+            'paginator' => $this,
+            'elements'  => $this->getPaginationLinks(),
+        ]);
+    }
 
     public static function resolveCurrentPage($pageName = 'page', $default = 1)
     {
@@ -133,5 +148,35 @@ class Pagination
     public static function currentPathResolver(Closure $resolver): void
     {
         static::$currentPathResolver = $resolver;
+    }
+
+    public function count(): int
+    {
+        return $this->items->count();
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return $this->items->offsetExists($offset);
+    }
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->items->offsetGet($offset);
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->items->offsetSet($offset, $value);
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        $this->items->offsetUnset($offset);
+    }
+
+    public function getIterator(): Traversable
+    {
+        return $this->items->getIterator();
     }
 }

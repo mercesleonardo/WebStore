@@ -50,6 +50,6 @@ class Application extends Container
 
         Pagination::currentPageResolver(fn() => $request->get('page', 1));
         Pagination::queryStringResolver(fn() => $request->get());
-        Pagination::currentPageResolver(fn() => $request->path());
+        Pagination::currentPathResolver(fn() => $request->path());
     }
 }

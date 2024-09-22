@@ -91,7 +91,7 @@ class Compiler
         return trim($sql);
     }
 
-    public function compileCount(Builder $query): string
+    public function compileCount(Builder $query)
     {
         $columns = $query->select ?: ['*'];
 
