@@ -85,14 +85,14 @@ class Session
         return $this;
     }
 
-    public function has(string $string): bool
+    public function has(string $key): bool
     {
-        return $this->get($string) !== null;
+        return $this->get($key) !== null;
     }
 
     public function setPreviousUrl(Request $request): void
     {
-        if ($request->method() == 'GET') {
+        if ($request->method() === 'GET') {
             $this->put('_previous.url', $request->fullUrl());
         }
     }
