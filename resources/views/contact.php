@@ -1,15 +1,3 @@
-<?php if ($success) : ?>
-    <div class="mb-4 px-4 py-4 w-full rounded-lg bg-green-400 text-green-900 font-bold">
-        <?= $success ?>
-    </div>
-<?php endif ?>
-
-<?php if ($error) : ?>
-    <div class="mb-4 px-4 py-4 w-full rounded-lg bg-red-400 text-red-900 font-bold">
-        <?= $error ?>
-    </div>
-<?php endif ?>
-
 <form method="post">
     <div class="mb-4">
         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
