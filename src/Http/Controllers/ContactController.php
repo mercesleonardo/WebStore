@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Toast;
 use App\Models\Message;
 use Core\Html\View;
 use Core\Http\Enums\HttpMethod;
@@ -16,10 +17,6 @@ use Exception;
 
 class ContactController
 {
-    public function __construct(
-        protected Session $session
-    ) {}
-
     #[Route('/contact')]
     public function index(): string
     {
@@ -31,8 +28,6 @@ class ContactController
             ->render('contact', [
                 'title'   => 'Contact Us',
                 'heading' => 'Contact Us',
-                'success' => $this->session->getFlash('success'),
-                'error'   => $this->session->getFlash('danger'),
                 'sources' => $sources,
             ]);
     }
@@ -50,13 +45,15 @@ class ContactController
         try {
             Message::create($request->input());
 
-            return redirect('/contact')
-                ->with('success', 'Your message has been sent successfully!');
+            Toast::success('Your message has been sent successfully!');
+
+            return redirect('/contact');
         } catch (Exception) {
+            Toast::error('An error occurred while sending the message. Please try again!');
+
             return redirect('/contact')
                 ->back()
-                ->withInput()
-                ->with('danger', 'An error occurred while sending the message. Please try again!');
+                ->withInput();
         }
     }
 }
