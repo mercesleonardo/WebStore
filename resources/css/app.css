@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes open-toast {
+    0% {
+        @apply translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2
+    }
+    50% {
+        @apply translate-y-0 opacity-100 sm:translate-x-0
+    }
+    100% {
+        @apply transform ease-out duration-300 transition
+    }
+}
+
+@keyframes swing {
+    20% {
+        transform: rotate3d(0, 0, 1, 15deg);
+    }
+    40% {
+        transform: rotate3d(0, 0, 1, -10deg);
+    }
+    60% {
+        transform: rotate3d(0, 0, 1, 5deg);
+    }
+    80% {
+        transform: rotate3d(0, 0, 1, -5deg);
+    }
+    to {
+        transform: rotate3d(0, 0, 1, 0deg);
+    }
+}
+
+.notification {
+    @apply pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5;
+    animation: open-toast 1s;
+}
+
+.animation-swing {
+    animation: swing;
+    animation-duration: 2s;
+    animation-fill-mode: both;
+    transform-origin: top center;
+}
