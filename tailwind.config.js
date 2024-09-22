@@ -4,6 +4,7 @@ export default {
   content: [
     './resources/**/*.phtml',
     './resources/**/*.php',
+    './resources/**/*.js'
   ],
   theme: {
     extend: {},
