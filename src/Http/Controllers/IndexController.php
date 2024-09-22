@@ -17,7 +17,7 @@ class IndexController
 
         return (new View())
             ->render('index', [
-                'title'    => 'My WebStore',
+                'title'    => 'My GameStore',
                 'heading'  => 'Home',
                 'products' => $products,
             ]);

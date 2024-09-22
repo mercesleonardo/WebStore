@@ -1,6 +1,6 @@
 {
-    "name": "webstore/webstore",
-    "description": "Project for storing information about a WebStore",
+    "name": "gamestore/gamestore",
+    "description": "Project for storing information about a GameStore",
     "type": "project",
     "autoload": {
         "psr-4": {
