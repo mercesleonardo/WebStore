@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Models;
 
 use Core\Database\Pinguim\Model;
+use Core\Database\Query\Builder;
 
 /**
  * @property int $id
@@ -18,5 +19,7 @@ use Core\Database\Pinguim\Model;
  *
  * @method static Product find(int | string $id)
  * @method static Product[] all()
+ * @method static Product create(array $data)
+ * @method static Builder query()
  */
 class Product extends Model {}
