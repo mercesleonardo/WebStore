@@ -30,7 +30,9 @@
                 bg-gray-800 hover:bg-gray-700
                 text-base text-white font-medium
                 focus:ring-gray-800 focus:ring-2 focus:ring-offset-2
-            ">
+            "   x-data
+                @click="$store.cart.addProduct(<?= $product->id ?>)"
+            >
                 Add to Cart
             </button>
         </div>
