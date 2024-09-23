@@ -13,8 +13,8 @@ use Illuminate\Support\Str;
 
 abstract class Model
 {
-    protected const string CREATED_AT = 'created_at';
-    protected const string UPDATED_AT = 'updated_at';
+    protected const CREATED_AT = 'created_at';
+    protected const UPDATED_AT = 'updated_at';
 
     protected static Connector $connection;
 
