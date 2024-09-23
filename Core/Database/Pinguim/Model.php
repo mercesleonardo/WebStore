@@ -60,7 +60,7 @@ abstract class Model
 
     public function getPrimaryKeyColumn(): string
     {
-        return $this->id;
+        return $this->primaryKey;
     }
 
     public function hydrate(array $attributes, bool $exists = false): static
@@ -76,7 +76,7 @@ abstract class Model
     public function fill(array $attributes): static
     {
         foreach (array_keys($attributes) as $attribute) {
-            if (!in_array($attribute, $this->fillable)) {
+            if (!in_array($attribute, $this->fillable, true)) {
                 throw new MassAssignmentException("You are trying to assign a value to a non-fillable attribute: [$attribute]");
             }
 
