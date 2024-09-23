@@ -45,7 +45,7 @@ if (!function_exists('route_is')) {
 if (!function_exists('format_money')) {
     function format_money(int $value): string
     {
-        return 'R$' . number_format($value / 100, 2, ',', '.');
+        return '$' . number_format($value / 100, 2, ',', '.');
     }
 }
 
