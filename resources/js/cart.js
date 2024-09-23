@@ -14,6 +14,10 @@ export default {
         this.isMenuOpen = false;
     },
 
+    itemsCount() {
+        return this.items.reduce((acc, item) => acc + item.quantity, 0);
+    },
+
     async addProduct(productId) {
         try {
             const response = await fetch(`/api/cart/add?id=${productId}`, { method: 'POST' });
