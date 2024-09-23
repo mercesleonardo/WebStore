@@ -1,4 +1,4 @@
-<<?php /** @var App\Models\Product $product */ ?>
+<?php /** @var App\Models\Product $product */ ?>
 <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
     <div class="flex w-full">
         <img
