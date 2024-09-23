@@ -10,7 +10,7 @@ use Core\Http\Enums\HttpMethod;
 use Core\Http\Request;
 use Core\Router\Attributes\Route;
 
-class AddToCartController
+class StoreController
 {
     #[Route('/api/cart/add', HttpMethod::Post)]
     public function __invoke(Request $request)
