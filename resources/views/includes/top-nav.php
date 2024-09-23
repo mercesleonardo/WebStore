@@ -19,18 +19,54 @@ use Core\Auth\Auth;
             </div>
 
             <div class="flex items-center">
+
+                <div class="relative"
+                     x-data
+                     @click.away="$store.cart.closeCartMenu()"
+                     @keydown.escape.stop="$store.cart.closeCartMenu()"
+                >
+                    <div>
+                        <button
+                                class="size-10 text-white rounded-full hover:bg-gray-600 flex items-center justify-center relative"
+                                @click="$store.cart.toggleCartMenu()"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                            </svg>
+
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full size-5 flex items-center justify-center">
+                                0
+                            </span>
+                        </button>
+                    </div>
+
+                    <div
+                            x-cloak
+                            class="absolute -bottom-16 right-0 bg-white w-[180px] p-4 shadow-md border rounded-md"
+                            x-show="$store.cart.isMenuOpen"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                    >
+                        Estamos aqui
+                    </div>
+                </div>
+
                 <?php if (container(Auth::class)->check()) : ?>
                     <div
-                        x-data="{ isOpen: false }"
-                        @keydown.escape.stop="isOpen = false"
-                        @click.away="isOpen = false"
-                        class="relative"
+                            x-data="{ isOpen: false }"
+                            @keydown.escape.stop="isOpen = false"
+                            @click.away="isOpen = false"
+                            class="relative"
                     >
                         <div>
                             <button
-                                type="button"
-                                class="relative flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                @click="isOpen = !isOpen"
+                                    type="button"
+                                    class="relative flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    @click="isOpen = !isOpen"
                             >
                                 <span class="absolute -inset-1.5"></span>
                                 <img src="/img/avatar/avatar.png" alt="avatar" class="size-8 rounded-full">
@@ -38,20 +74,20 @@ use Core\Auth\Auth;
                         </div>
 
                         <div
-                            x-show="isOpen"
-                            x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md  bg-white py-1 ring-1 ring-black ring-opacity-5 focus:outline-none"
-                            @click.away="isOpen = false"
+                                x-show="isOpen"
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md  bg-white py-1 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                @click.away="isOpen = false"
                         >
                             <a
-                                href="/auth/logout"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                @click="isOpen = false"
+                                    href="/auth/logout"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    @click="isOpen = false"
                             >
                                 Logout
                             </a>
