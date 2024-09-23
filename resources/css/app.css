@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] {
+    display: none !important;
+}
+
 @keyframes open-toast {
     0% {
         @apply translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2
