@@ -11,10 +11,14 @@ use Core\Router\Attributes\Route;
 
 class ProductController
 {
-    #[Route('/product')]
+    #[Route('/product/{slug}')]
     public function __invoke(Request $request): string
     {
-        $product = Product::find($request->get('id'));
+        $product = Product::query()->where('slug', $request->parameter('slug'))->first();
+
+        if (!$product) {
+            abort();
+        }
 
         return (new View())
             ->render('product', [
