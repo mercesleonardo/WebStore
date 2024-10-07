@@ -3,7 +3,7 @@ export default {
     items: [],
 
     init() {
-
+        this.loadCartItems();
     },
 
     toggleCartMenu() {
@@ -24,15 +24,35 @@ export default {
             const { items } = await response.json();
 
             this.items = items;
+
+            toast('success', 'Produto adicionado ao carrinho');
         } catch (error) {
             console.error(error);
+
+            toast('error', 'Erro ao adicionar o produto ao carrinho');
         }
     },
 
-    async loadCarItems() {
-        const response = await fetch('/api/cart/');
+    async loadCartItems() {
+        const response = await fetch('/api/cart');
         const { items } = await response.json();
 
         this.items = items;
+    },
+
+    async removeItem(productId) {
+        if (confirm('Deseja realmente remover esse item do carrinho?')) {
+            try {
+                await fetch(`/api/cart/delete?id=${productId}`, { method: 'DELETE' });
+
+                this.items = this.items.filter(item => item.id !== productId);
+
+                toast('success', 'Produto removido do carrinho');
+            } catch (e) {
+                console.log(e)
+
+                toast('error', 'Erro ao remover produto do carrinho');
+            }
+        }
     }
 }

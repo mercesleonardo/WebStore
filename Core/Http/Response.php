@@ -10,6 +10,7 @@ class Response
 {
     public const HTTP_OK           = 200;
     public const HTTP_CREATED      = 201;
+    public const HTTP_NO_CONTENT   = 204;
     public const HTTP_MOVED        = 301;
     public const HTTP_FOUND        = 302;
     public const HTTP_BAD_REQUEST  = 400;
@@ -21,6 +22,7 @@ class Response
     protected array $statusTexts = [
         200 => 'OK',
         201 => 'Created',
+        204 => 'No Content',
         301 => 'Moved Permanently',
         302 => 'Found',
         400 => 'Bad Request',
@@ -32,7 +34,7 @@ class Response
 
     private array $headers;
 
-    private string $content;
+    private string | null $content;
 
     private int $statusCode;
 
