@@ -5,7 +5,7 @@
         <div class="p-4 bg-white rounded-lg shadow-md mb-8">
             <div class="flex flex-col max-h-[507px]">
                 <div class="max-h-[161px] w-full overflow-hidden rounded-lg">
-                    <img src="<?= $product->image ?>" class="h-[161px] w-full object-cover" alt="<?= $product->name ?>" />
+                    <img src="<?= asset($product->image) ?>" class="h-[161px] w-full object-cover" alt="<?= $product->name ?>" />
                 </div>
 
                 <div class="mt-4">
@@ -24,7 +24,7 @@
                 <div class="mt-4">
                     <a class="flex items-center justify-center rounded-md border border-transparent px-8 py-2 text-sm font-medium
                         bg-gray-200 hover:bg-gray-300 transition duration-150 ease-in-out"
-                       href="/product?id=<?= $product->id ?>"
+                       href="/product/<?= $product->slug ?>"
                     >
                         View Product
                     </a>
