@@ -9,6 +9,7 @@ use Core\Database\Query\Builder;
 
 /**
  * @property int $id
+ * @property string $slug
  * @property string $name
  * @property int $quantity
  * @property string $description
