@@ -15,7 +15,7 @@ class IndexController
     public function __invoke(): JsonResponse
     {
         return response()->json([
-            'items' => Session::get('cart', [])
+            'items' => Session::get('cart', []),
         ]);
     }
 }

@@ -25,7 +25,7 @@ class ParameterBag
         preg_match('/^' . $uri . '$/', $this->request->path(), $matches);
         array_shift($matches);
 
-        $parameters = [];
+        $parameters     = [];
         $parameterNames = $this->getParametersNames();
 
         foreach ($matches as $index => $match) {
