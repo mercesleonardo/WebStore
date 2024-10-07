@@ -27,5 +27,12 @@ export default {
         } catch (error) {
             console.error(error);
         }
+    },
+
+    async loadCarItems() {
+        const response = await fetch('/api/cart/');
+        const { items } = await response.json();
+
+        this.items = items;
     }
 }
