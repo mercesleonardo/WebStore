@@ -87,3 +87,12 @@ if (!function_exists('validation_error')) {
         return \container(Session::class)->getError($key);
     }
 }
+
+if (!function_exists('asset')) {
+    function asset(string $path): string
+    {
+        $config = require base_path('config/app.php');
+
+        return $config['app_url'] . '/' . $path;
+    }
+}
