@@ -37,7 +37,7 @@ class ParameterBag
 
     private function getParametersNames()
     {
-        preg_replace('/\{([a-zA-Z0-9]+)\}/', $this->route->uri, $uri);
+        preg_match_all('/\{([a-zA-Z0-9]+)\}/', $this->route->uri, $uri);
         array_shift($uri);
 
         return $uri[0];

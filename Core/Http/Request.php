@@ -4,9 +4,15 @@ declare(strict_types = 1);
 
 namespace Core\Http;
 
+use Core\Router\ParameterBag;
+use Core\Router\Route;
+use http\Exception\RuntimeException;
+
 class Request
 {
     protected HeaderBag $headers;
+
+    protected ?ParameterBag $parameters = null;
 
     public function __construct(
         protected string $path = '/',
@@ -111,5 +117,19 @@ class Request
         }
 
         return $url;
+    }
+
+    public function initializeParameterBag(Route $route): void
+    {
+        $this->parameters = new ParameterBag($this, $route);
+    }
+
+    public function parameter(string $key): int|string
+    {
+        if (!$this->parameters) {
+            throw new RuntimeException('ParameterBag não foi inicializado');
+        }
+
+        return $this->parameters->get($key);
     }
 }

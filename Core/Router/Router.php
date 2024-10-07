@@ -31,7 +31,11 @@ class Router
             abort();
         }
 
-        return $route[0];
+        $route = $route[0];
+
+        $request->initializeParameterBag($route);
+
+        return $route;
     }
 
     private function addLoadedRoutes(): void
