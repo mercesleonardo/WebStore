@@ -79,7 +79,8 @@ use Core\Auth\Auth;
 
                                             <div class="flex flex-col gap-1">
                                                 <div class="text-sm font-bold" x-text="product.name"></div>
-                                                <div class="text-xs font-semibold" x-text="money(product.price)"></div>
+                                                <div class="text-xs font-semibold" x-text="`Quantity: (${product.quantity})`"></div>
+                                                <div class="text-xs font-semibold" x-text="`TOTAL: ${money(product.price)}`"></div>
                                             </div>
                                         </div>
                                     </div>

@@ -22,6 +22,7 @@ class StoreController
             $cart = $previousCart->map(function ($item) use ($product) {
                 if ($item['id'] === $product->id) {
                     $item['quantity']++;
+                    $item['price'] = $product->price * $item['quantity'];
                 }
 
                 return $item;
