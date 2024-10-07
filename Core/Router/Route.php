@@ -17,7 +17,7 @@ readonly class Route
         public string $action,
         public array $middlewares = []
     ) {
-        $this->genarateRegex();
+        $this->regex = $this->generateRegex();
     }
 
     public function match(string $uri, string $method): bool
@@ -31,11 +31,11 @@ readonly class Route
             ->call($this->controller, $this->action);
     }
 
-    private function genarateRegex(): void
+    private function generateRegex(): string
     {
         $uri = preg_replace('/\{([a-zA-Z0-9]+)\}/', '?(/[a-zA-Z0-9\-_]+)+', $this->uri);
         $uri = str_replace('/', '\/', $uri);
 
-        $this->regex = '/^' . $uri . '$/';
+        return '/^' . $uri . '$/';
     }
 }
