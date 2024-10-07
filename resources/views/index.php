@@ -3,17 +3,17 @@
 <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10">
     <?php foreach ($products as $product) : ?>
         <div class="p-4 bg-white rounded-lg shadow-md mb-8">
-            <div class="relative">
-                <div class="relative max-h-[161px] w-full overflow-hidden rounded-lg">
-                    <img src="<?= $product->image ?>" class="max-h-[161px] w-full" alt="Product Image" />
+            <div class="flex flex-col max-h-[507px]">
+                <div class="max-h-[161px] w-full overflow-hidden rounded-lg">
+                    <img src="<?= $product->image ?>" class="h-[161px] w-full object-cover" alt="<?= $product->name ?>" />
                 </div>
 
-                <div class="relative mt-4">
+                <div class="mt-4">
                     <h3 class="text-sm font-medium text-gray-800">
                         <?= $product->name ?>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500 h-[200px] overflow-ellipsis">
-                        <?= $product->description ?>
+                    <p class="mt-1 text-sm text-gray-500 min-h-[200px] overflow-ellipsis">
+                        <?= str($product->description)->limit(200) ?>
                     </p>
 
                     <div class="pt-3 text-sm font-medium text-gray-400">
