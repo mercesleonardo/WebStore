@@ -2,7 +2,7 @@
 <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
     <div class="flex w-full">
         <img
-                src="<?= $product->image ?>"
+                src="<?= asset($product->image) ?>"
                 title="<?= $product->name ?>"
                 alt="<?= $product->name ?>"
                 class="w-full h-full object-cover object-center rounded-lg shadow-lg">
