@@ -124,7 +124,7 @@ class Request
         $this->parameters = new ParameterBag($this, $route);
     }
 
-    public function parameter(string $key): int|string
+    public function parameter(string $key): int | string
     {
         if (!$this->parameters) {
             throw new RuntimeException('ParameterBag não foi inicializado');
